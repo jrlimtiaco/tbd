@@ -5,6 +5,7 @@ import firebase from "firebase"
 import moment from "moment"
 
 import Flex from "./common/Flex"
+import EmptyListText from "./common/EmptyListText"
 import Icon from "@expo/vector-icons"
 import Headline from "./common/Headline"
 import Text from "./common/Text"
@@ -154,14 +155,9 @@ class Itinerary extends Component {
                     renderItem={this._renderEvent}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={(
-                      <Text
-                        color={Colors.darkGray}
-                        size="xxxxxlarge"
-                        style={styles.emptyText}
-                        type={Fonts.CerealExtraBold}
-                      >
+                      <EmptyListText>
                         No events for this date
-                      </Text>
+                      </EmptyListText>
                     )}
                   />
                 </Flex>
@@ -193,11 +189,6 @@ const styles = StyleSheet.create({
     height: 10,
     marginLeft: -5,
     width: 10,
-  },
-  emptyText: {
-    paddingHorizontal: DEFAULT_PADDING,
-    paddingTop: DEVICE_HEIGHT * .05,
-    textAlign: "center",
   },
   eventItem: {
     alignItems: "center",
