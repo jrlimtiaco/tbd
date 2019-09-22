@@ -5,6 +5,7 @@ import firebase from "firebase"
 
 import AddTripItem from "./AddTripItem"
 import Flex from "./common/Flex"
+import EmptyListText from "./common/EmptyListText"
 import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
@@ -74,25 +75,15 @@ class Checklist extends Component {
           return (
             <Flex>
               <View style={styles.container}>
-                {!!this._tripItems.length && (
-                  <Text size="xlarge" color={Colors.darkGray} style={styles.header} type={Fonts.CerealBold}>
-                    Items for your trip
-                  </Text>
-                )}
                 <FlatList
                   data={this._tripItems}
                   keyExtractor={(item, index) => index.toString()}
                   showsVerticalScrollIndicator={false}
                   renderItem={this._renderItem}
                   ListEmptyComponent={(
-                    <Text
-                      color={Colors.darkGray}
-                      size="xxxxxlarge"
-                      style={styles.emptyText}
-                      type={Fonts.CerealExtraBold}
-                    >
+                    <EmptyListText>
                       Create a list of essential items for your trip
-                    </Text>
+                    </EmptyListText>
                   )}
                 />
               </View>
@@ -110,14 +101,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: DEFAULT_PADDING,
-  },
-  emptyText: {
-    paddingHorizontal: DEFAULT_PADDING,
-    paddingTop: DEVICE_HEIGHT * .05,
-    textAlign: "center",
-  },
-  header: {
-    paddingTop: DEFAULT_PADDING,
   },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,

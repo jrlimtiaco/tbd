@@ -4,6 +4,7 @@ import { Subscribe } from "unstated"
 
 import AddButton from "./common/AddButton"
 import Flex from "./common/Flex"
+import EmptyListText from "./common/EmptyListText"
 import Headline from "./common/Headline"
 import PollItem from "./PollItem"
 import Text from "./common/Text"
@@ -44,14 +45,9 @@ class Polls extends Component {
                 renderItem={this._renderItem}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={(
-                  <Text
-                    color={Colors.darkGray}
-                    size="xxxxxlarge"
-                    style={styles.emptyText}
-                    type={Fonts.CerealExtraBold}
-                  >
+                  <EmptyListText>
                     Create polls for your trip
-                  </Text>
+                  </EmptyListText>
                 )}
               />
             </Flex>
@@ -65,11 +61,6 @@ class Polls extends Component {
 export default Polls
 
 const styles = StyleSheet.create({
-  emptyText: {
-    paddingHorizontal: DEFAULT_PADDING,
-    paddingTop: DEVICE_HEIGHT * .05,
-    textAlign: "center",
-  },
   line: {
     borderColor: Colors.lightGray,
     borderLeftWidth: StyleSheet.hairlineWidth,
