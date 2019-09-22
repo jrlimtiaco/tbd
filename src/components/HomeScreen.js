@@ -5,7 +5,6 @@ import Button from "./common/Button"
 import Flex from "./common/Flex"
 import CreateFirstTrip from "./CreateFirstTrip"
 import Icon from "@expo/vector-icons"
-import NameTrip from "./NameTrip"
 import Polls from "./Polls"
 import Text from "./common/Text"
 
@@ -16,7 +15,7 @@ import { Subscribe } from "unstated"
 import { displayDates } from "../utils/dates"
 
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
-import { CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, POLLS } from "../constants/routes"
+import { CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, NAME_TRIP, POLLS } from "../constants/routes"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 export default class HomeScreen extends Component {
@@ -24,17 +23,12 @@ export default class HomeScreen extends Component {
     header: null,
   }
 
-  state = {
-    displayNameTrip: false,
-  }
-
   render() {
     return (
       <Subscribe to={[ProfileContainer, TripContainer]}>
         {(profileContainer, tripContainer) => {
           const { navigation: { navigate } } = this.props
-          const { displayNameTrip } = this.state
-          const { currentTrip, trips } = profileContainer.state.profile
+          const { trips } = profileContainer.state.profile
           const { trip: { endDate, location, startDate, tripName } } = tripContainer.state
           if (!trips.length) {
             return <CreateFirstTrip />
@@ -45,7 +39,7 @@ export default class HomeScreen extends Component {
                   <View style={{ flex: 1 }} />
                   <View style={styles.tripDetailsContainer}>
                     <TouchableOpacity
-                      onPress={() => this.setState({ displayNameTrip: true })}
+                      onPress={() => navigate(NAME_TRIP)}
                       style={styles.tripNameText}
                     >
                       <Text color={Colors.darkGray} size="xxxlarge" type={Fonts.CerealBlack}>
@@ -95,12 +89,6 @@ export default class HomeScreen extends Component {
                     </TouchableOpacity>
                   </View>
                 </Flex>
-                <NameTrip
-                  currentTrip={currentTrip}
-                  location={location}
-                  onClose={() => this.setState({ displayNameTrip: false })}
-                  visible={displayNameTrip}
-                />
               </Flex>
             )
           }

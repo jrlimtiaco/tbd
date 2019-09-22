@@ -29,8 +29,7 @@ export default EmptyListText
 
 const styles = StyleSheet.create({
   text: {
-    paddingHorizontal: DEFAULT_PADDING,
-    paddingTop: DEVICE_HEIGHT * .05,
+    padding: DEFAULT_PADDING,
     textAlign: "center",
   },
 })
