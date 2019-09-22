@@ -1,70 +1,86 @@
 import React, { Component } from "react"
-import { Alert, Modal, StyleSheet, TextInput } from "react-native"
-
-import Flex from "./common/Flex"
-import Text from "./common/Text"
-
+import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
+import { Subscribe } from "unstated"
 import firebase from "firebase"
 
-import { Colors, Fonts } from "../constants/style"
+import Flex from "./common/Flex"
+import Icon from "@expo/vector-icons"
+import Text from "./common/Text"
+
+import ProfileContainer from "../containers/ProfileContainer"
+import TripContainer from "../containers/TripContainer"
+
+import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 class NameTrip extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerIcon}>
+          <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
+        </TouchableOpacity>
+      ),
+    }
+  }
+
   state = {
     input: null,
   }
 
   _onSubmitEditing = async () => {
-    const { currentTrip, onClose } = this.props
+    const { navigation } = this.props
     const { input: tripName } = this.state
     if (!tripName) {
-      return onClose()
+      return navigation.goBack()
     }
     try {
       await firebase.firestore()
         .collection("Trips")
-        .doc(currentTrip)
+        .doc(this._currentTrip)
         .update({ tripName })
-      onClose()
+      navigation.goBack()
     } catch (err) {
       Alert.alert("Error", "Unable to save changes. Please try again.")
     }
   }
 
   render() {
-    const { location, onClose, visible } = this.props
     return (
-      <Modal
-        animationType={"fade"}
-        onRequestClose={onClose}
-        supportedOrientations={["portrait"]}
-        transparent={false}
-        visible={visible}
-      >
-        <Flex style={styles.container}>
-          <Text
-            color={Colors.darkGray}
-            size="xxxxxlarge"
-            style={styles.headingText}
-            type={Fonts.CerealExtraBold}
-          >
-            Trip Name
-          </Text>
-          <TextInput
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoFocus
-            clearButtonMode="while-editing"
-            maxLength={25}
-            onChangeText={input => this.setState({ input })}
-            onSubmitEditing={this._onSubmitEditing}
-            placeholder={`Try "Trip to ${location}"`}
-            placeholderTextColor={Colors.gray}
-            returnKeyType="done"
-            style={styles.textInput}
-            underlineColorAndroid="transparent"
-          />
-        </Flex>
-      </Modal>
+      <Subscribe to={[ProfileContainer, TripContainer]}>
+        {(profileContainer, tripContainer) => {
+          const { currentTrip } = profileContainer.state.profile
+          const { trip: { location } } = tripContainer.state
+          this._currentTrip = currentTrip
+          return (
+            <Flex>
+              <View style={styles.container}>
+                <Text
+                  color={Colors.darkGray}
+                  size="xxxxxlarge"
+                  style={styles.headingText}
+                  type={Fonts.CerealExtraBold}
+                >
+                  Trip Name
+                </Text>
+                <TextInput
+                  autoCapitalize="sentences"
+                  autoCorrect={false}
+                  autoFocus
+                  clearButtonMode="while-editing"
+                  maxLength={25}
+                  onChangeText={input => this.setState({ input })}
+                  onSubmitEditing={this._onSubmitEditing}
+                  placeholder={`Try "Trip to ${location}"`}
+                  placeholderTextColor={Colors.gray}
+                  returnKeyType="done"
+                  style={styles.textInput}
+                  underlineColorAndroid="transparent"
+                />
+              </View>
+            </Flex>
+          )
+        }}
+      </Subscribe>
     )
   }
 }
@@ -74,6 +90,9 @@ export default NameTrip
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 15,
+  },
+  headerIcon: {
+    paddingHorizontal: DEFAULT_PADDING / 2,
   },
   headingText: {
     paddingVertical: 20,

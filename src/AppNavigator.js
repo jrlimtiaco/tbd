@@ -16,6 +16,7 @@ import Details from "./components/Details"
 import EditTrip from "./components/EditTrip"
 import HomeScreen from './components/HomeScreen'
 import Itinerary from './components/Itinerary'
+import NameTrip from "./components/NameTrip"
 import Loader from "./components/common/Loader"
 import Login from "./components/auth/Login"
 import Polls from "./components/Polls"
@@ -37,6 +38,7 @@ import {
   EDIT_TRIP,
   ITINERARY,
   LOGIN,
+  NAME_TRIP,
   POLLS,
   SIGNUP,
   SUGGESTIONS,
@@ -56,6 +58,7 @@ const TripStack = createStackNavigator({
   [POLLS]: Polls,
   [SUGGESTIONS]: Suggestions,
   [ADD_SUGGESTION]: AddSuggestion,
+  [NAME_TRIP]: NameTrip,
 }, {
   navigationOptions: ({ navigation }) => ({
     headerStyle: {

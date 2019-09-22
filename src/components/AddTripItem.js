@@ -4,6 +4,7 @@ import { Subscribe } from "unstated"
 import firebase from "firebase"
 
 import Flex from "./common/Flex"
+import Headline from "./common/Headline"
 import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
@@ -63,14 +64,7 @@ class AddTripItem extends Component {
             this._tripItems = tripContainer.state.trip.tripItems
             return (
               <Flex style={styles.container}>
-                <Text
-                  color={Colors.darkGray}
-                  size="xxxxxlarge"
-                  style={styles.headingText}
-                  type={Fonts.CerealExtraBold}
-                >
-                  Add an item to your checklist
-                </Text>
+                <Headline>Add an item to your checklist</Headline>
                 <TextInput
                   autoCapitalize="words"
                   autoCorrect={false}
@@ -102,9 +96,6 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
-  },
-  headingText: {
-    paddingVertical: 20,
   },
   textInput: {
     borderBottomColor: Colors.lightGray,
