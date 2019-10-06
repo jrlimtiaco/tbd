@@ -146,7 +146,6 @@ class Itinerary extends Component {
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={this._renderDates}
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.dateScroller}
                   />
                 </View>
                 <Flex>
@@ -184,12 +183,9 @@ const styles = StyleSheet.create({
   dates: {
     paddingVertical: DEFAULT_PADDING,
   },
-  dateScroller: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-  },
   dateScrollerContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: DEFAULT_PADDING,
   },
   dot: {
