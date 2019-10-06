@@ -9,31 +9,27 @@ import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 class PollItem extends Component {
 
-  _onPress = async (poll, option) => {
+  _onPress = async (pollId, optionId) => {
+    const { options } = this.props.poll
     const userId = firebase.auth().currentUser.uid
     const profile = await firebase.firestore().collection("Users").doc(`${userId}`).get()
     const { currentTrip } = profile.data()
-    let { options } = this.props.polls[poll]
-    options = options.map(o => {
-      return {
-        ...o,
-        responses: o.id === option && !o.responses.includes(userId)
-          ? [...o.responses, userId]
-          : o.responses.filter(r => r !== userId)
-      }
-    })
-    const polls = {
-      ...this.props.polls,
-      [poll]: {
-        ...this.props.polls[poll],
-        options,
-      }
-    }
     try {
       await firebase.firestore()
-        .collection("Trips")
+        .collection("Polls")
         .doc(currentTrip)
-        .update({ polls })
+        .collection("polls")
+        .doc(pollId)
+        .update({
+          options: options.map(option => {
+            const votes = option.id === optionId
+              ? option.votes.includes(userId)
+              ? option.votes.filter(vote => vote !== userId)
+              : [...option.votes, userId]
+              : option.votes.filter(vote => vote !== userId)
+            return { ...option, votes }
+          })
+        })
     } catch (err) {
       console.log("## PollItem _onPress err:", err)
     }
@@ -47,8 +43,8 @@ class PollItem extends Component {
           {question}
         </Text>
         {options.map(option => {
-          const isSelected = option.responses.includes(firebase.auth().currentUser.uid)
-          const numberOfVotes = option.responses.length
+          const isSelected = option.votes.includes(firebase.auth().currentUser.uid)
+          const numberOfVotes = option.votes.length
           return (
             <View key={option.id} style={styles.optionContainer}>
               <TouchableOpacity style={styles.button} onPress={() => this._onPress(id, option.id)}>
