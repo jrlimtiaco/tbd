@@ -4,6 +4,7 @@ import { Subscribe } from "unstated"
 import firebase from "firebase"
 
 import Flex from "./common/Flex"
+import Headline from "./common/Headline"
 import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
@@ -54,14 +55,7 @@ class NameTrip extends Component {
           return (
             <Flex>
               <View style={styles.container}>
-                <Text
-                  color={Colors.darkGray}
-                  size="xxxxxlarge"
-                  style={styles.headingText}
-                  type={Fonts.CerealExtraBold}
-                >
-                  Trip Name
-                </Text>
+                <Headline>Trip Name</Headline>
                 <TextInput
                   autoCapitalize="sentences"
                   autoCorrect={false}
@@ -89,13 +83,10 @@ export default NameTrip
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
+    marginHorizontal: DEFAULT_PADDING,
   },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
-  },
-  headingText: {
-    paddingVertical: 20,
   },
   textInput: {
     borderBottomColor: Colors.lightGray,

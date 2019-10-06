@@ -125,18 +125,24 @@ const AppStack = createBottomTabNavigator({
       const { routeName } = navigation.state
       let iconName
       if (routeName === TRIP) {
-        iconName = "map-marker-radius"
+        iconName = "map-pin"
       } else {
-        iconName = "account-box-outline"
+        iconName = "user"
       }
       return (
-        <Icon.MaterialCommunityIcons
-          color={tintColor}
+        <Icon.Feather
+          color={focused ? Colors.black : Colors.gray}
           name={iconName}
           size={horizontal ? 20 : 26}
           style={{ marginBottom: -3 }}
         />
       )
+    },
+    tabBarOptions: {
+      activeTintColor: Colors.black,
+      labelStyle: {
+        fontWeight: "bold",
+      },
     },
   }),
 })
