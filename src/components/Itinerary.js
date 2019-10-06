@@ -139,13 +139,14 @@ class Itinerary extends Component {
                 <Text size="xlarge" color={Colors.darkGray} style={styles.dates} type={Fonts.CerealBold}>
                   {displayDates({ startDate, endDate })}
                 </Text>
-                <View style={styles.dateScroller}>
+                <View style={styles.dateScrollerContainer}>
                   <FlatList
                     horizontal
                     data={dates}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={this._renderDates}
                     showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={styles.dateScroller}
                   />
                 </View>
                 <Flex>
@@ -184,6 +185,11 @@ const styles = StyleSheet.create({
     paddingVertical: DEFAULT_PADDING,
   },
   dateScroller: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
+  },
+  dateScrollerContainer: {
     marginBottom: DEFAULT_PADDING,
   },
   dot: {

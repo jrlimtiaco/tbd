@@ -56,9 +56,7 @@ class CreateTrip extends Component {
           endDate,
           itinerary,
           location,
-          polls: {},
           startDate,
-          suggestions: {},
           tripName: null,
           tripItems: [],
         })

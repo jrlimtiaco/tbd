@@ -43,28 +43,23 @@ class AddPoll extends Component {
     } else {
       try {
         this.setState({ pending: true })
-        const id = uuidV4()
         const db = firebase.firestore()
         const profile = await db.collection("Users").doc(`${firebase.auth().currentUser.uid}`).get()
         const { currentTrip } = profile.data()
         await db
-          .collection("Trips")
+          .collection("Polls")
           .doc(`${currentTrip}`)
-          .update({
-            polls: {
-              ...this._polls,
-              [id]: {
-                id,
-                question: question.includes("?") ? question : question + "?",
-                options: options.map((option, index) => {
-                  return {
-                    id: uuidV4(),
-                    option: this.state[`${index + 1}`],
-                    responses: [],
-                  }
-                }),
-              },
-            }
+          .collection("polls")
+          .doc(uuidV4())
+          .set({
+            createdAt: (new Date()).toISOString(),
+            question: question.includes("?") ? question : question + "?",
+            options: options.map((option, index) => ({
+                id: uuidV4(),
+                option: this.state[`${index + 1}`],
+                votes: [],
+              })
+            ),
           })
         this.props.navigation.goBack()
       } catch (err) {
