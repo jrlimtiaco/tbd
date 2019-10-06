@@ -2,12 +2,14 @@ import React, { Component } from "react"
 import firebase from "firebase"
 
 import ProfileContainer from "./containers/ProfileContainer"
+import SuggestionsContainer from "./containers/SuggestionsContainer"
 import TripContainer from "./containers/TripContainer"
 
 import { Provider, Subscribe } from "unstated"
 
 const CONTAINERS = [
   ProfileContainer,
+  SuggestionsContainer,
   TripContainer,
 ]
 

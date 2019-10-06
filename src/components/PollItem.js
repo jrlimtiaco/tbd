@@ -40,9 +40,9 @@ class PollItem extends Component {
   }
 
   render() {
-    const { isLastPoll, poll: { id, options, question } } = this.props
+    const { id, options, question } = this.props.poll
     return (
-      <View style={[styles.pollContainer, isLastPoll && styles.noBorder]}>
+      <View style={styles.pollContainer}>
         <Text color={Colors.darkGray} size="xxlarge" style={styles.question} type={Fonts.CerealExtraBold}>
           {question}
         </Text>
@@ -89,9 +89,6 @@ const styles = StyleSheet.create({
     height: 25,
     justifyContent: "center",
     width: 25,
-  },
-  noBorder: {
-    borderBottomWidth: 0,
   },
   option: {
     flex: 1,

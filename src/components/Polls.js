@@ -19,12 +19,10 @@ class Polls extends Component {
   })
 
   _renderItem = ({ item, index }) => {
-    const isLastPoll = index === Object.keys(this._polls).length - 1
     const poll = this._polls[item]
     return (
       <PollItem
         key={index}
-        isLastPoll={isLastPoll}
         poll={poll}
         polls={this._polls}
       />

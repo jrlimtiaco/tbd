@@ -2,8 +2,10 @@ import React, { Component } from "react"
 import { Alert, StyleSheet, TextInput, TouchableOpacity } from "react-native"
 import { Subscribe } from "unstated"
 import firebase from "firebase"
+import uuidV4 from "uuid/v4"
 
 import Flex from "./common/Flex"
+import Headline from "./common/Headline"
 import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
@@ -24,30 +26,27 @@ class AddSuggestion extends Component {
   }
 
   state = {
-    tripItem: "",
+    suggestion: null,
   }
 
-  _currentTrip
-  _tripItems
-
   _onSubmitEditing = async () => {
-    const { navigation } = this.props
-    const { tripItem } = this.state
-    const currentTrip = this._currentTrip
-    const tripItems = this._tripItems
-    if (
-      !tripItem.trim() ||
-      tripItems.some(item => item.toLowerCase() === tripItem.toLowerCase())
-    ) {
-      navigation.goBack()
+    if (!this.state.suggestion || !this.state.suggestion.trim()) {
+      this.props.navigation.goBack()
     } else {
       try {
-        const updatedTripItems = [...tripItems, tripItem]
         await firebase.firestore()
-          .collection("Trips")
-          .doc(currentTrip)
-          .update({ tripItems: updatedTripItems })
-        this.setState({ tripItem: "" }, () => navigation.goBack())
+          .collection("Suggestions")
+          .doc(this._currentTrip)
+          .collection("suggestions")
+          .doc(uuidV4())
+          .set({
+            likes: [],
+            suggestion: this.state.suggestion,
+            createdAt: (new Date()).toISOString(),
+          }, {
+            merge: true
+          })
+        this.props.navigation.goBack()
       } catch (err) {
         Alert.alert("Error", err.message)
       }
@@ -63,23 +62,16 @@ class AddSuggestion extends Component {
             this._tripItems = tripContainer.state.trip.tripItems
             return (
               <Flex style={styles.container}>
-                <Text
-                  color={Colors.darkGray}
-                  size="xxxxxlarge"
-                  style={styles.headingText}
-                  type={Fonts.CerealExtraBold}
-                >
-                  Add a suggestion for your trip
-                </Text>
+                <Headline>Add a suggestion for your trip</Headline>
                 <TextInput
                   autoCapitalize="words"
                   autoCorrect={false}
                   autoFocus
                   clearButtonMode="while-editing"
                   maxLength={25}
-                  onChangeText={tripItem => this.setState({ tripItem })}
+                  onChangeText={suggestion => this.setState({ suggestion })}
                   onSubmitEditing={this._onSubmitEditing}
-                  placeholder={`Try "Passport"`}
+                  placeholder={`Try "Drinks at night"`}
                   placeholderTextColor={Colors.gray}
                   returnKeyType="done"
                   style={styles.textInput}
@@ -98,7 +90,7 @@ export default AddSuggestion
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 15,
+    marginHorizontal: DEFAULT_PADDING,
   },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,

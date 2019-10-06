@@ -130,7 +130,7 @@ class Itinerary extends Component {
           const dates = getTripDates({ startDate, endDate })
           this._itinerary = itinerary
           this._selectedDate = dates[index]
-          const selectedDateItinerayEventTime = Object.keys(this._itinerary[this._selectedDate]).sort(
+          const selectedDayEvents = Object.keys(this._itinerary[this._selectedDate]).sort(
             (a, b) => moment(a, "hh:mm a").valueOf() - moment(b, "hh:mm a").valueOf()
           )
           return (
@@ -150,7 +150,7 @@ class Itinerary extends Component {
                 </View>
                 <Flex>
                   <FlatList
-                    data={selectedDateItinerayEventTime}
+                    data={selectedDayEvents}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={this._renderEvent}
                     showsVerticalScrollIndicator={false}
@@ -160,6 +160,9 @@ class Itinerary extends Component {
                       </EmptyListText>
                     )}
                   />
+                  {!!selectedDayEvents.length && (
+                    <View style={styles.line} />
+                  )}
                 </Flex>
               </View>
             </Flex>
@@ -192,8 +195,6 @@ const styles = StyleSheet.create({
   },
   eventItem: {
     alignItems: "center",
-    borderLeftWidth: 0.25,
-    borderColor: Colors.darkGray,
     flex: 1,
     flexDirection: "row",
     marginLeft: 5,
@@ -225,6 +226,15 @@ const styles = StyleSheet.create({
     padding: 15,
     height: ITEM_SIZE,
     width: ITEM_SIZE,
+  },
+  line: {
+    backgroundColor: Colors.gray,
+    bottom: 0,
+    left: 95,
+    position: "absolute",
+    top: 0,
+    width: StyleSheet.hairlineWidth,
+    zIndex: -10,
   },
   selected: {
     borderColor: Colors.darkGray,

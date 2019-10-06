@@ -69,25 +69,6 @@ class LocationPicker extends Component {
         visible={visible}
       >
         <SafeAreaView style={styles.container}>
-          {/*<View style={styles.closeAndClearButtonContainer}>
-            <TouchableOpacity
-              style={styles.icon}
-              onPress={() => {
-                this.setState({ input: null })
-                this.props.onClose()
-              }}
-            >
-              <Icon.Feather name="x" size={25} />
-            </TouchableOpacity>
-            {this.state.input && (
-              <TouchableOpacity
-                onPress={() => this.setState({ data: [], input: null })}
-                style={styles.icon}
-              >
-                <Text>Clear</Text>
-              </TouchableOpacity>
-            )}
-          </View>*/}
           <Text
             color={Colors.darkGray}
             size="xxxxxlarge"
@@ -134,15 +115,8 @@ class LocationPicker extends Component {
 export default LocationPicker
 
 const styles = StyleSheet.create({
-  closeAndClearButtonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
   container: {
     flex: 1,
-  },
-  icon: {
-    padding: 10,
   },
   itemContainerStyle: {
     alignItems: "center",
