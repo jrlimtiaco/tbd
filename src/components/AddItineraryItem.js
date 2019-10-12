@@ -1,15 +1,14 @@
 import React, { Component } from "react"
 import { Alert, StyleSheet, TouchableOpacity } from "react-native"
 import { Subscribe } from "unstated"
-
 import firebase from "firebase"
 import moment from "moment"
 
+import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
 import DateTimePicker from "react-native-modal-datetime-picker"
 import Flex from "./common/Flex"
 import Headline from "./common/Headline"
-import Icon from "@expo/vector-icons"
 import Input from "./common/Input"
 import ProfileContainer from "../containers/ProfileContainer"
 import Text from "./common/Text"

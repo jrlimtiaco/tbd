@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import { AppLoading, Font } from 'expo'
+import { AppLoading } from 'expo'
+import * as Font from 'expo-font'
 
 import AppNavigator from './AppNavigator'
 import config from "./config"

@@ -1,10 +1,10 @@
 import React, { Component } from "react"
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
 
+import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
 import Calendar from "./Calendar"
 import Flex from "./common/Flex"
-import Icon from "@expo/vector-icons"
 import LocationPicker from "./LocationPicker"
 import Text from "./common/Text"
 

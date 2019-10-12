@@ -1,8 +1,7 @@
 import React from 'react'
 import { createBottomTabNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation'
-import { Icon } from 'expo'
-import { Colors, Fonts } from "./constants/style"
 
+import * as Icon from "@expo/vector-icons"
 import AccountScreen from './components/AccountScreen'
 import AddItineraryItem from './components/AddItineraryItem'
 import AddPoll from './components/AddPoll'
@@ -22,6 +21,8 @@ import Login from "./components/auth/Login"
 import Polls from "./components/Polls"
 import Signup from "./components/auth/Signup"
 import Suggestions from "./components/Suggestions"
+
+import { Colors, Fonts } from "./constants/style"
 
 import {
   ACCOUNT,

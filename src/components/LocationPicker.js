@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { FlatList, Modal, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 
-import Icon from "@expo/vector-icons"
+import * as Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
 import { Colors, Fonts } from "../constants/style"

@@ -3,10 +3,10 @@ import { Alert, FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from 
 import { Subscribe } from "unstated"
 import firebase from "firebase"
 
+import * as Icon from "@expo/vector-icons"
 import AddTripItem from "./AddTripItem"
 import Flex from "./common/Flex"
 import EmptyListText from "./common/EmptyListText"
-import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
 import ProfileContainer from "../containers/ProfileContainer"
