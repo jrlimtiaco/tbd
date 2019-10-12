@@ -5,11 +5,11 @@ import { range } from "lodash"
 import firebase from "firebase"
 import uuidV4 from "uuid/v4"
 
+import * as Icon from "@expo/vector-icons"
 import AddButton from "./common/AddButton"
 import Button from "./common/Button"
 import Flex from "./common/Flex"
 import Headline from "./common/Headline"
-import Icon from "@expo/vector-icons"
 import Input from "./common/Input"
 import Text from "./common/Text"
 

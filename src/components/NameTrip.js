@@ -3,9 +3,9 @@ import { Alert, StyleSheet, TextInput, TouchableOpacity, View } from "react-nati
 import { Subscribe } from "unstated"
 import firebase from "firebase"
 
+import * as Icon from "@expo/vector-icons"
 import Flex from "./common/Flex"
 import Headline from "./common/Headline"
-import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
 import ProfileContainer from "../containers/ProfileContainer"

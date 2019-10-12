@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
 import firebase from "firebase"
 
-import Icon from "@expo/vector-icons"
+import * as Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"

@@ -4,9 +4,9 @@ import { Subscribe } from "unstated"
 import firebase from "firebase"
 import uuidV4 from "uuid/v4"
 
+import * as Icon from "@expo/vector-icons"
 import Flex from "./common/Flex"
 import Headline from "./common/Headline"
-import Icon from "@expo/vector-icons"
 import Text from "./common/Text"
 
 import ProfileContainer from "../containers/ProfileContainer"

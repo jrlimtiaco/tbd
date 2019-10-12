@@ -1,8 +1,8 @@
 import React from "react"
 import { StyleSheet } from "react-native"
 
+import * as Icon from "@expo/vector-icons"
 import Button from "./Button"
-import Icon from "@expo/vector-icons"
 import Text from "./Text"
 
 import { DEVICE_WIDTH } from "../../constants/dimensions"
