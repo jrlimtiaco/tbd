@@ -33,6 +33,7 @@ class SuggestionItem extends Component {
 
   render() {
     const { suggestion } = this.props
+    const isLiked = suggestion.likes.includes(firebase.auth().currentUser.uid)
     return (
       <View style={styles.container}>
         <View style={styles.textContainer}>
@@ -40,12 +41,17 @@ class SuggestionItem extends Component {
             {suggestion.suggestion}
           </Text>
         </View>
-        <TouchableOpacity onPress={this._onPress} style={styles.likeContainer}>
-          <Icon.Feather name="thumbs-up" size={18} tintColor={"black"} />
+        <View style={styles.likeContainer}>
+          <TouchableOpacity onPress={this._onPress} style={styles.thumb}>
+            <Icon.MaterialCommunityIcons
+              name={isLiked ? "thumb-up" : "thumb-up-outline"}
+              size={22}
+            />
+          </TouchableOpacity>
           <Text type={Fonts.CerealBook}>
             {`${suggestion.likes.length} likes`}
           </Text>
-        </TouchableOpacity>
+        </View>
       </View>
     )
   }
@@ -64,12 +70,15 @@ const styles = StyleSheet.create({
   likeContainer: {
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: DEFAULT_PADDING,
   },
   text: {
     paddingHorizontal: 5,
   },
   textContainer: {
     flex: 1,
+  },
+  thumb: {
+    marginBottom: 5,
+    paddingHorizontal: DEFAULT_PADDING,
   },
 })
