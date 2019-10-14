@@ -3,6 +3,7 @@ import { Alert, StyleSheet, TouchableOpacity } from "react-native"
 import { Subscribe } from "unstated"
 import firebase from "firebase"
 import moment from "moment"
+import uuidV4 from "uuid/v4"
 
 import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
@@ -36,7 +37,7 @@ class AddItineraryItem extends Component {
 
   _onPress = async () => {
     const { navigation } = this.props
-    const { event, selectedDate, startTime } = this.state
+    const { event, selectedDate: date, startTime } = this.state
     if (!event || !startTime) {
       this._event.validate()
       this._startTime.validate()
@@ -44,18 +45,16 @@ class AddItineraryItem extends Component {
     } else {
       try {
         this.setState({ pending: true })
-        const currentTrip = this._currenTrip
-        const itinerary = {
-          ...this._itinerary,
-          [selectedDate]: {
-            ...this._itinerary[selectedDate],
-            [startTime]: event,
-          },
-        }
         await firebase.firestore()
-          .collection("Trips")
-          .doc(`${currentTrip}`)
-          .update({ itinerary })
+          .collection("Itineraries")
+          .doc(`${this._currenTrip}`)
+          .collection("itineraries")
+          .doc(uuidV4())
+          .set({
+            date,
+            event,
+            startTime,
+          })
         navigation.goBack()
       } catch (err) {
         this.setState({ pending: false })

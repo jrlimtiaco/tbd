@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Alert, FlatList, LayoutAnimation, StyleSheet, TouchableOpacity, View } from "react-native"
 import { Subscribe } from "unstated"
+import { groupBy } from "lodash"
 import firebase from "firebase"
 import moment from "moment"
 
@@ -9,6 +10,7 @@ import Flex from "./common/Flex"
 import EmptyListText from "./common/EmptyListText"
 import Headline from "./common/Headline"
 import Text from "./common/Text"
+import ItineraryContainer from "../containers/ItineraryContainer"
 import TripContainer from "../containers/TripContainer"
 
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
@@ -51,39 +53,34 @@ class Itinerary extends Component {
     this.props.navigation.navigate(ADD_ITINERARY_ITEM, { selectedDate: this._selectedDate })
   }
 
-  _deleteEvent = async (eventTime) => {
-    let updatedDay = { ...this._itinerary[this._selectedDate] }
-    delete updatedDay[eventTime]
-    const itinerary = {
-      ...this._itinerary,
-      [this._selectedDate]: updatedDay,
-    }
+  _deleteEvent = async (eventId) => {
     try {
       const db = firebase.firestore()
       const profile = await db.collection("Users").doc(`${firebase.auth().currentUser.uid}`).get()
       const { currentTrip } = profile.data()
       await db
-        .collection("Trips")
+        .collection("Itineraries")
         .doc(`${currentTrip}`)
-        .update({ itinerary })
+        .collection("itineraries")
+        .doc(eventId)
+        .delete()
     } catch (err) {
       console.log("## err:", err)
     }
   }
 
   _renderEvent = ({ item, index }) => {
-    const event = this._itinerary[this._selectedDate][item]
     return (
       <View key={index} style={styles.eventItemContainer}>
         <Text color={Colors.gray} style={styles.eventTime} type={Fonts.CerealExtraBold}>
-          {item}
+          {item.startTime}
         </Text>
         <View style={styles.eventItem}>
           <View style={styles.dot} />
           <View style={styles.eventItemTextContainer}>
-            <Text>{event}</Text>
+            <Text>{item.event}</Text>
           </View>
-          <TouchableOpacity onPress={() => this._deleteEvent(item)}>
+          <TouchableOpacity onPress={() => this._deleteEvent(item.id)}>
             <Icon.MaterialCommunityIcons name="delete-outline" size={25} />
           </TouchableOpacity>
         </View>
@@ -92,11 +89,11 @@ class Itinerary extends Component {
   }
 
   _renderDates = ({ item, index: i }) => {
-    const { index } = this.state
+    const isSelected = this.state.index === i
     return (
       <TouchableOpacity
         key={item}
-        style={[styles.item, i === index && styles.selected]}
+        style={[styles.item, isSelected && styles.selected]}
         onPress={() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
           this.setState({ index: i })
@@ -104,13 +101,13 @@ class Itinerary extends Component {
       >
         <Text
           align="center"
-          color={i === index ? Colors.darkGray : Colors.gray}
+          color={isSelected ? Colors.darkGray : Colors.gray}
           type={Fonts.CerealExtraBold}
         >
           {moment(item).format("ddd")}{"\n"}
           <Text
             align="center"
-            color={i === index ? Colors.darkGray : Colors.gray}
+            color={isSelected ? Colors.darkGray : Colors.gray}
             size="xlarge"
             type={Fonts.CerealExtraBold}
           >
@@ -123,15 +120,15 @@ class Itinerary extends Component {
 
   render() {
     return (
-      <Subscribe to={[TripContainer]}>
-        {(tripContainer) => {
-          const { index } = this.state
-          const { endDate, itinerary, startDate } = tripContainer.state.trip
+      <Subscribe to={[ItineraryContainer, TripContainer]}>
+        {(itineraryContainer, tripContainer) => {
+          const { itinerary } = itineraryContainer.state
+          const { endDate, startDate } = tripContainer.state.trip
           const dates = getTripDates({ startDate, endDate })
-          this._itinerary = itinerary
-          this._selectedDate = dates[index]
-          const selectedDayEvents = Object.keys(this._itinerary[this._selectedDate]).sort(
-            (a, b) => moment(a, "hh:mm a").valueOf() - moment(b, "hh:mm a").valueOf()
+          const events = groupBy(itinerary, item => item.date)
+          this._selectedDate = dates[this.state.index]
+          const selectedDayEvents = (events[this._selectedDate] || []).sort(
+            (a, b) => moment(a.startTime, "hh:mm a").valueOf() - moment(b.startTime, "hh:mm a").valueOf()
           )
           return (
             <Flex>

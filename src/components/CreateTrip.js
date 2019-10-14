@@ -40,10 +40,6 @@ class CreateTrip extends Component {
     } else {
       try {
         this.setState({ pending: true })
-        const itinerary = getTripDates({ startDate, endDate }).reduce((acc, cur) => {
-          acc[cur] = {}
-          return acc
-        }, {})
         const db = firebase.firestore()
         const newTripRef = await db.collection("Trips").doc()
         await db.collection("Users")
@@ -54,7 +50,6 @@ class CreateTrip extends Component {
           })
         await newTripRef.set({
           endDate,
-          itinerary,
           location,
           startDate,
           tripName: null,

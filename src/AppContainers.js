@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import firebase from "firebase"
 
+import ItineraryContainer from "./containers/ItineraryContainer"
 import PollsContainer from "./containers/PollsContainer"
 import ProfileContainer from "./containers/ProfileContainer"
 import SuggestionsContainer from "./containers/SuggestionsContainer"
@@ -9,6 +10,7 @@ import TripContainer from "./containers/TripContainer"
 import { Provider, Subscribe } from "unstated"
 
 const CONTAINERS = [
+  ItineraryContainer,
   PollsContainer,
   ProfileContainer,
   SuggestionsContainer,
