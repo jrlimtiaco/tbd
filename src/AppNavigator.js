@@ -9,6 +9,7 @@ import AddSuggestion from './components/AddSuggestion'
 import AddTripItem from './components/AddTripItem'
 import AppContainers from "./AppContainers"
 import AuthHandler from './AuthHandler'
+import Chat from "./components/Chat"
 import Checklist from "./components/Checklist"
 import CreateTrip from "./components/CreateTrip"
 import Details from "./components/Details"
@@ -33,6 +34,7 @@ import {
   APP,
   AUTH,
   AUTH_HANDLER,
+  CHAT,
   CHECKLIST,
   CREATE_TRIP,
   DETAILS,
@@ -60,6 +62,7 @@ const TripStack = createStackNavigator({
   [SUGGESTIONS]: Suggestions,
   [ADD_SUGGESTION]: AddSuggestion,
   [NAME_TRIP]: NameTrip,
+  [CHAT]: Chat,
 }, {
   navigationOptions: ({ navigation }) => ({
     headerStyle: {

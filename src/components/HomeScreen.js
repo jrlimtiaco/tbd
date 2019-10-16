@@ -15,7 +15,7 @@ import { Subscribe } from "unstated"
 import { displayDates } from "../utils/dates"
 
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
-import { CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, NAME_TRIP, POLLS } from "../constants/routes"
+import { CHAT, CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, NAME_TRIP, POLLS } from "../constants/routes"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 export default class HomeScreen extends Component {
@@ -73,7 +73,7 @@ export default class HomeScreen extends Component {
                       <Icon.Feather name="map" size={50} style={styles.icon} />
                       <Text>Itinerary</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => navigate(CHECKLIST)} style={styles.tripItem}>
+                    <TouchableOpacity onPress={() => navigate(CHAT)} style={styles.tripItem}>
                       <Icon.Feather name="message-square" size={50} style={styles.icon} />
                       <Text>Chat</Text>
                     </TouchableOpacity>
