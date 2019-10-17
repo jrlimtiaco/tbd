@@ -82,7 +82,7 @@ class Checklist extends Component {
                   renderItem={this._renderItem}
                   ListEmptyComponent={(
                     <EmptyListText>
-                      Create a list of essential items for your trip
+                      Create a list of items for your trip
                     </EmptyListText>
                   )}
                 />
