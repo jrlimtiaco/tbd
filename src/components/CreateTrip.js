@@ -54,6 +54,7 @@ class CreateTrip extends Component {
           startDate,
           tripName: null,
           tripItems: [],
+          users: [firebase.auth().currentUser.uid],
         })
         refreshProfile()
         refreshTrips()

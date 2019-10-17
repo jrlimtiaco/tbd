@@ -29,7 +29,7 @@ export default class HomeScreen extends Component {
         {(profileContainer, tripContainer) => {
           const { navigation: { navigate } } = this.props
           const { trips } = profileContainer.state.profile
-          const { trip: { endDate, location, startDate, tripName } } = tripContainer.state
+          const { trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
           if (!trips.length) {
             return <CreateFirstTrip />
           } else {
@@ -54,7 +54,7 @@ export default class HomeScreen extends Component {
                     </Text>
                     <View style={styles.editAndTravelersContainer}>
                       <Text size="small" type={Fonts.CerealBlack}>
-                        1 Travelers
+                        {users.length} Travelers
                       </Text>
                       <TouchableOpacity
                         onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate })}

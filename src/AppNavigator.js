@@ -64,6 +64,7 @@ const TripStack = createStackNavigator({
   [NAME_TRIP]: NameTrip,
   [CHAT]: Chat,
 }, {
+  headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
     headerStyle: {
       shadowColor: "#000000",
@@ -94,6 +95,7 @@ const AccountStack = createStackNavigator({
   [ACCOUNT]: AccountScreen,
   [CREATE_TRIP]: CreateTrip,
 }, {
+  headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
     headerStyle: {
       shadowColor: "#000000",
