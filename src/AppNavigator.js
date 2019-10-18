@@ -9,6 +9,7 @@ import AddSuggestion from './components/AddSuggestion'
 import AddTripItem from './components/AddTripItem'
 import AppContainers from "./AppContainers"
 import AuthHandler from './AuthHandler'
+import Calendar from "./components/Calendar"
 import Chat from "./components/Chat"
 import Checklist from "./components/Checklist"
 import CreateTrip from "./components/CreateTrip"
@@ -18,6 +19,7 @@ import HomeScreen from './components/HomeScreen'
 import Itinerary from './components/Itinerary'
 import NameTrip from "./components/NameTrip"
 import Loader from "./components/common/Loader"
+import LocationPicker from "./components/LocationPicker"
 import Login from "./components/auth/Login"
 import Polls from "./components/Polls"
 import Signup from "./components/auth/Signup"
@@ -34,12 +36,14 @@ import {
   APP,
   AUTH,
   AUTH_HANDLER,
+  CALENDAR,
   CHAT,
   CHECKLIST,
   CREATE_TRIP,
   DETAILS,
   EDIT_TRIP,
   ITINERARY,
+  LOCATION,
   LOGIN,
   NAME_TRIP,
   POLLS,
@@ -63,6 +67,8 @@ const TripStack = createStackNavigator({
   [ADD_SUGGESTION]: AddSuggestion,
   [NAME_TRIP]: NameTrip,
   [CHAT]: Chat,
+  [LOCATION]: LocationPicker,
+  [CALENDAR]: Calendar,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
@@ -94,6 +100,8 @@ TripStack.navigationOptions = ({ navigation }) => {
 const AccountStack = createStackNavigator({
   [ACCOUNT]: AccountScreen,
   [CREATE_TRIP]: CreateTrip,
+  [LOCATION]: LocationPicker,
+  [CALENDAR]: Calendar,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({

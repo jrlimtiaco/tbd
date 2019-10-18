@@ -1,15 +1,27 @@
 import React, { Component } from "react"
-import { FlatList, Modal, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
+import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 
 import * as Icon from "@expo/vector-icons"
+import Flex from "./common/Flex"
+import Headline from "./common/Headline"
 import Text from "./common/Text"
 
-import { Colors, Fonts } from "../constants/style"
+import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 const API_KEY = "AIzaSyBTO4ymkNSBsV7kWtKCdZNPdwPgslpLAYI"
 const COUNTRY_FORMAT = "country:us"
 
 class LocationPicker extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerIcon}>
+          <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
+        </TouchableOpacity>
+      ),
+    }
+  }
+
   state = {
     data: [],
     input: null,
@@ -44,9 +56,11 @@ class LocationPicker extends Component {
         key={filterRowData.title}
         style={styles.itemContainerStyle}
         onPress={() => {
-          this.props.selectLocation(filterRowData)
-          this.setState({ data: [], input: null })
-          this.props.onClose()
+          const selectLocation = this.props.navigation.getParam("selectLocation")
+          if (selectLocation) {
+            selectLocation(filterRowData)
+          }
+          this.props.navigation.goBack()
         }}
       >
         <Icon.Feather name="map-pin" size={30} />
@@ -57,57 +71,45 @@ class LocationPicker extends Component {
     )
   }
 
+  _onSubmitEditing = () => {
+    const selectLocation = this.props.navigation.getParam("selectLocation")
+    if (this.state.input && selectLocation) {
+      selectLocation(this.state.input)
+    }
+    this.props.navigation.goBack()
+  }
+
   render() {
-    const { onClose, selectLocation, visible } = this.props
     const { data, input } = this.state
     return (
-      <Modal
-        animationType={"fade"}
-        onRequestClose={onClose}
-        supportedOrientations={["portrait"]}
-        transparent={false}
-        visible={visible}
-      >
-        <SafeAreaView style={styles.container}>
-          <Text
-            color={Colors.darkGray}
-            size="xxxxxlarge"
-            style={{ paddingLeft: 15, paddingVertical: 20 }}
-            type={Fonts.CerealExtraBold}
-          >
-            Destination
-          </Text>
-          <TextInput
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoFocus
-            clearButtonMode="while-editing"
-            defaultValue={input}
-            onChangeText={this._onChangeText}
-            placeholder='Try "New York"'
-            placeholderTextColor={Colors.gray}
-            returnKeyType="done"
-            style={styles.textInput}
-            underlineColorAndroid="transparent"
-            onSubmitEditing={() => {
-              if (input) {
-                selectLocation(input)
-              }
-              this.setState({ data: [], input: null })
-              onClose()
-            }}
-          />
-          <FlatList
-            contentContainerStyle={styles.list}
-            data={data}
-            ItemSeparatorComponent={() => <View style={styles.separatorStyle} />}
-            keyboardDismissMode="on-drag"
-            keyboardShouldPersistTaps="always"
-            keyExtractor={item => item.id}
-            renderItem={this._renderItem}
-          />
-        </SafeAreaView>
-      </Modal>
+      <Flex>
+        <View style={styles.headline}>
+          <Headline>Destination</Headline>
+        </View>
+        <TextInput
+          autoCapitalize="none"
+          autoCorrect={false}
+          autoFocus
+          clearButtonMode="while-editing"
+          defaultValue={input}
+          onChangeText={this._onChangeText}
+          placeholder='Try "New York"'
+          placeholderTextColor={Colors.gray}
+          returnKeyType="done"
+          style={styles.textInput}
+          underlineColorAndroid="transparent"
+          onSubmitEditing={this._onSubmitEditing}
+        />
+        <FlatList
+          contentContainerStyle={styles.list}
+          data={data}
+          ItemSeparatorComponent={() => <View style={styles.separatorStyle} />}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="always"
+          keyExtractor={item => item.id}
+          renderItem={this._renderItem}
+        />
+      </Flex>
     )
   }
 }
@@ -115,8 +117,11 @@ class LocationPicker extends Component {
 export default LocationPicker
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  headline: {
+    marginHorizontal: 15,
+  },
+  headerIcon: {
+    paddingHorizontal: DEFAULT_PADDING / 2,
   },
   itemContainerStyle: {
     alignItems: "center",

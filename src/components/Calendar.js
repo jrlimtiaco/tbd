@@ -1,18 +1,29 @@
 import React, { Component } from "react"
-import { Modal, StyleSheet } from "react-native"
-
-import Button from "./common/Button"
-import Flex from "./common/Flex"
-import Text from "./common/Text"
-
-import moment from "moment"
+import { StyleSheet, TouchableOpacity } from "react-native"
 import { Calendar } from "react-native-calendars"
 import { range } from "lodash"
+import moment from "moment"
 
-import { Colors, Fonts } from "../constants/style"
+import * as Icon from "@expo/vector-icons"
+import Button from "./common/Button"
+import Flex from "./common/Flex"
+import Headline from "./common/Headline"
+import Text from "./common/Text"
+
+import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 import { DEVICE_WIDTH } from "../constants/dimensions"
 
 class CalendarScreen extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerIcon}>
+          <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
+        </TouchableOpacity>
+      ),
+    }
+  }
+
   state = {
     endDate: null,
     markedDates: {},
@@ -50,47 +61,26 @@ class CalendarScreen extends Component {
   }
 
   _onPress = () => {
-    const { onClose, selectDates } = this.props
+    const { navigation } = this.props
     const { endDate, startDate } = this.state
-
-    if (startDate && endDate) {
+    const selectDates = navigation.getParam("selectDates")
+    if (startDate && endDate && selectDates) {
       selectDates({ endDate, startDate })
     }
-    this.setState({
-      startDate: null,
-      endDate: null,
-      markedDates: {},
-    })
-    onClose()
+    navigation.goBack()
   }
 
   render() {
     const { markedDates } = this.state
-    const { onClose, visible } = this.props
     return (
-      <Modal
-        animationType={"fade"}
-        onRequestClose={onClose}
-        supportedOrientations={["portrait"]}
-        transparent={false}
-        visible={visible}
-      >
-        <Flex>
-          <Flex style={styles.container}>
-            <Text
-              color={Colors.darkGray}
-              size="xxxxxlarge"
-              style={styles.heading}
-              type={Fonts.CerealExtraBold}
-            >
-              Select Dates
-            </Text>
-            <Calendar
-              markedDates={markedDates}
-              markingType="period"
-              onDayPress={this._onDayPress}
-            />
-          </Flex>
+      <Flex>
+        <Flex style={styles.container}>
+          <Headline>Select Dates</Headline>
+          <Calendar
+            markedDates={markedDates}
+            markingType="period"
+            onDayPress={this._onDayPress}
+          />
           <Button
             onPress={this._onPress}
             style={styles.confirmButton}
@@ -101,7 +91,7 @@ class CalendarScreen extends Component {
             </Text>
           </Button>
         </Flex>
-      </Modal>
+      </Flex>
     )
   }
 }
@@ -113,10 +103,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   confirmButton: {
+    alignSelf: "center",
     borderWidth: 2,
+    marginTop: 30,
+    width: DEVICE_WIDTH / 2,
   },
-  heading: {
-    paddingBottom: 30,
-    paddingTop: 20,
+  headerIcon: {
+    paddingHorizontal: DEFAULT_PADDING / 2,
   },
 })

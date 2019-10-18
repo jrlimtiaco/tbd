@@ -1,32 +1,34 @@
 import React, { Component } from "react"
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Subscribe } from "unstated"
+import firebase from "firebase"
 
 import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
-import Calendar from "./Calendar"
 import Flex from "./common/Flex"
-import LocationPicker from "./LocationPicker"
 import Text from "./common/Text"
 
 import ProfileContainer from "../containers/ProfileContainer"
 import TripContainer from "../containers/TripContainer"
-import { Subscribe } from "unstated"
 
-import firebase from "firebase"
-import { TRIP } from "../constants/routes"
 import { displayDates, getTripDates } from "../utils/dates"
-
-import { Colors, Fonts } from "../constants/style"
+import { CALENDAR, LOCATION, TRIP } from "../constants/routes"
+import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
 
 class CreateTrip extends Component {
-  static navigationOptions = {
-    header: null,
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Create Trip",
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerIcon}>
+          <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
+        </TouchableOpacity>
+      ),
+    }
   }
 
   state = {
-    displayCalendar: false,
-    displayLocationPicker: false,
     endDate: null,
     location: null,
     startDate: null,
@@ -71,8 +73,12 @@ class CreateTrip extends Component {
     const { location } = this.state
     return (
       <TouchableOpacity
-        onPress={() => this.setState({ displayLocationPicker: true })}
         style={styles.row}
+        onPress={() => {
+          this.props.navigation.navigate(LOCATION, {
+            selectLocation: location => this.setState({ location })
+          })
+        }}
       >
         <Text size="xxlarge" type={Fonts.CerealExtraBold}>
           Where
@@ -95,8 +101,12 @@ class CreateTrip extends Component {
     const { endDate, startDate } = this.state
     return (
       <TouchableOpacity
-        onPress={() => this.setState({ displayCalendar: true })}
         style={styles.row}
+        onPress={() => {
+          this.props.navigation.navigate(CALENDAR, {
+            selectDates: ({ endDate, startDate }) => this.setState({ endDate, startDate })
+          })
+        }}
       >
         <Text size="xxlarge" type={Fonts.CerealExtraBold}>
           When
@@ -116,14 +126,6 @@ class CreateTrip extends Component {
   }
 
   render() {
-    const {
-      endDate,
-      displayCalendar,
-      displayLocationPicker,
-      location,
-      pending,
-      startDate,
-    } = this.state
     return (
       <Subscribe to={[ProfileContainer, TripContainer]}>
         {(profileContainer, tripContainer) => {
@@ -133,9 +135,6 @@ class CreateTrip extends Component {
           return (
             <Flex>
               <View style={styles.container}>
-                <Text color={Colors.darkGray} size="xxxxxlarge" type={Fonts.CerealExtraBold} style={styles.heading}>
-                  Travel Details
-                </Text>
                 {this._renderLocation()}
                 <View style={styles.separator} />
                 {this._renderStartAndEndDate()}
@@ -148,7 +147,7 @@ class CreateTrip extends Component {
                 </TouchableOpacity>
                 <View style={styles.separator} />
                 <Button
-                  pending={pending}
+                  pending={this.state.pending}
                   style={styles.createButton}
                   transparent
                   onPress={() => this._createTrip({ refreshProfile, refreshTrips, trips })}
@@ -158,16 +157,6 @@ class CreateTrip extends Component {
                   </Text>
                 </Button>
               </View>
-              <LocationPicker
-                onClose={() => this.setState({ displayLocationPicker: false })}
-                selectLocation={location => this.setState({ location })}
-                visible={displayLocationPicker}
-              />
-              <Calendar
-                onClose={() => this.setState({ displayCalendar: false })}
-                selectDates={({ endDate, startDate }) => this.setState({ endDate, startDate })}
-                visible={displayCalendar}
-              />
             </Flex>
           )
         }}
@@ -188,8 +177,8 @@ const styles = StyleSheet.create({
     marginTop: 30,
     width: DEVICE_WIDTH / 2,
   },
-  heading: {
-    paddingTop: 20,
+  headerIcon: {
+    paddingHorizontal: DEFAULT_PADDING / 2,
   },
   row: {
     alignItems: "center",
