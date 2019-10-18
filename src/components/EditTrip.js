@@ -1,31 +1,33 @@
 import React, { Component } from "react"
 import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Subscribe } from "unstated"
+import firebase from "firebase"
 
 import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
-import Calendar from "./Calendar"
 import Flex from "./common/Flex"
-import LocationPicker from "./LocationPicker"
 import Text from "./common/Text"
 
 import ProfileContainer from "../containers/ProfileContainer"
-import { Subscribe } from "unstated"
 
-import firebase from "firebase"
-import { TRIP } from "../constants/routes"
 import { displayDates } from "../utils/dates"
-
-import { Colors, Fonts } from "../constants/style"
+import { CALENDAR, LOCATION, TRIP } from "../constants/routes"
+import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
 
 class EditTrip extends Component {
-  static navigationOptions = {
-    header: null,
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerTitle: "Edit Trip",
+      headerLeft: (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerIcon}>
+          <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
+        </TouchableOpacity>
+      ),
+    }
   }
 
   state = {
-    displayCalendar: false,
-    displayLocationPicker: false,
     endDate: this.props.navigation.getParam("endDate", null),
     location: this.props.navigation.getParam("location", null),
     startDate: this.props.navigation.getParam("startDate", null),
@@ -52,8 +54,12 @@ class EditTrip extends Component {
     const { location } = this.state
     return (
       <TouchableOpacity
-        onPress={() => this.setState({ displayLocationPicker: true })}
         style={styles.row}
+        onPress={() => {
+          this.props.navigation.navigate(LOCATION, {
+            selectLocation: location => this.setState({ location })
+          })
+        }}
       >
         <Text size="xxlarge" type={Fonts.CerealExtraBold}>
           Where
@@ -76,8 +82,12 @@ class EditTrip extends Component {
     const { endDate, startDate } = this.state
     return (
       <TouchableOpacity
-        onPress={() => this.setState({ displayCalendar: true })}
         style={styles.row}
+        onPress={() => {
+          this.props.navigation.navigate(CALENDAR, {
+            selectDates: ({ endDate, startDate }) => this.setState({ endDate, startDate })
+          })
+        }}
       >
         <Text size="xxlarge" type={Fonts.CerealExtraBold}>
           When
@@ -97,14 +107,6 @@ class EditTrip extends Component {
   }
 
   render() {
-    const {
-      endDate,
-      displayCalendar,
-      displayLocationPicker,
-      location,
-      pending,
-      startDate,
-    } = this.state
     return (
       <Subscribe to={[ProfileContainer]}>
         {(profileContainer) => {
@@ -113,9 +115,6 @@ class EditTrip extends Component {
           return (
             <Flex>
               <View style={styles.container}>
-                <Text color={Colors.darkGray} size="xxxxxlarge" type={Fonts.CerealExtraBold} style={styles.heading}>
-                  Travel Details
-                </Text>
                 {this._renderLocation()}
                 <View style={styles.separator} />
                 {this._renderStartAndEndDate()}
@@ -127,27 +126,17 @@ class EditTrip extends Component {
                   <Icon.Feather name="chevron-right" size={30} />
                 </TouchableOpacity>
                 <View style={styles.separator} />
+                <Button
+                  pending={this.state.pending}
+                  style={styles.saveButton}
+                  transparent
+                  onPress={() => this._updateTrip({ currentTrip })}
+                >
+                  <Text>
+                    Save
+                  </Text>
+                </Button>
               </View>
-              <Button
-                pending={pending}
-                style={styles.createButton}
-                transparent
-                onPress={() => this._updateTrip({ currentTrip })}
-              >
-                <Text>
-                  Save
-                </Text>
-              </Button>
-              <LocationPicker
-                onClose={() => this.setState({ displayLocationPicker: false })}
-                selectLocation={location => this.setState({ location })}
-                visible={displayLocationPicker}
-              />
-              <Calendar
-                onClose={() => this.setState({ displayCalendar: false })}
-                selectDates={({ endDate, startDate }) => this.setState({ endDate, startDate })}
-                visible={displayCalendar}
-              />
             </Flex>
           )
         }}
@@ -163,12 +152,8 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 15,
   },
-  createButton: {
-    borderWidth: 2,
-    marginHorizontal: 40,
-  },
-  heading: {
-    paddingTop: 20,
+  headerIcon: {
+    paddingHorizontal: DEFAULT_PADDING / 2,
   },
   row: {
     alignItems: "center",
@@ -176,6 +161,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingBottom: 15,
     paddingTop: 30,
+  },
+  saveButton: {
+    alignSelf: "center",
+    borderWidth: 2,
+    marginTop: 30,
+    width: DEVICE_WIDTH / 2,
   },
   separator: {
     borderBottomColor: Colors.lightGray,
