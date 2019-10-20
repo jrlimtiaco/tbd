@@ -36,7 +36,7 @@ class Chat extends Component {
     return (
       <ChatMessage
         isMyMessage={item.createdBy === firebase.auth().currentUser.uid}
-        message={item}
+        chatMessage={item}
       />
     )
   }
