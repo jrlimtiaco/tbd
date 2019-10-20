@@ -90,7 +90,9 @@ class ImageButton extends Component {
         allowsEditing: true,
         aspect: [1, 1],
       })
-      this._resizePhoto(photo)
+      if (!photo.cancelled) {
+        this._resizePhoto(photo)
+      }
     }
   }
 
