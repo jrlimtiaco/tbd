@@ -7,7 +7,7 @@ import firebase from "firebase"
 import Flex from "./common/Flex"
 import Text from "./common/Text"
 
-import { CREATE_TRIP } from '../constants/routes'
+import { CREATE_TRIP, TRIPS } from '../constants/routes'
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 const CREATE_TRIP_ID = "CREATE_TRIP_ID"
@@ -50,6 +50,11 @@ export default class LinksScreen extends React.Component {
       case CREATE_TRIP_ID:
         onPress = () => {
           this.props.navigation.navigate(CREATE_TRIP)
+        }
+        break
+      case TRIPS_ID:
+        onPress = () => {
+          this.props.navigation.navigate(TRIPS)
         }
         break
       default:

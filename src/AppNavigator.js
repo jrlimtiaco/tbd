@@ -24,6 +24,7 @@ import Login from "./components/auth/Login"
 import Polls from "./components/Polls"
 import Signup from "./components/auth/Signup"
 import Suggestions from "./components/Suggestions"
+import Trips from "./components/Trips"
 
 import { Colors, Fonts } from "./constants/style"
 
@@ -50,6 +51,7 @@ import {
   SIGNUP,
   SUGGESTIONS,
   TRIP,
+  TRIPS,
 } from "./constants/routes"
 
 const TripStack = createStackNavigator({
@@ -102,6 +104,7 @@ const AccountStack = createStackNavigator({
   [CREATE_TRIP]: CreateTrip,
   [LOCATION]: LocationPicker,
   [CALENDAR]: Calendar,
+  [TRIPS]: Trips,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
