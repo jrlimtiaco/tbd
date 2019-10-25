@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     marginBottom: DEFAULT_PADDING,
     marginHorizontal: DEFAULT_PADDING,
-    width: DEVICE_WIDTH / 2,
+    width: DEVICE_WIDTH * (2/3),
   },
   myMessage: {
     alignSelf: "flex-end",
