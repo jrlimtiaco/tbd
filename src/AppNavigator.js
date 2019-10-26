@@ -22,6 +22,7 @@ import Loader from "./components/common/Loader"
 import LocationPicker from "./components/LocationPicker"
 import Login from "./components/auth/Login"
 import Polls from "./components/Polls"
+import Search from "./components/Search"
 import Signup from "./components/auth/Signup"
 import Suggestions from "./components/Suggestions"
 import Trips from "./components/Trips"
@@ -48,6 +49,7 @@ import {
   LOGIN,
   NAME_TRIP,
   POLLS,
+  SEARCH,
   SIGNUP,
   SUGGESTIONS,
   TRIP,
@@ -71,6 +73,7 @@ const TripStack = createStackNavigator({
   [CHAT]: Chat,
   [LOCATION]: LocationPicker,
   [CALENDAR]: Calendar,
+  [SEARCH]: Search,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
@@ -105,6 +108,7 @@ const AccountStack = createStackNavigator({
   [LOCATION]: LocationPicker,
   [CALENDAR]: Calendar,
   [TRIPS]: Trips,
+  [SEARCH]: Search,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
