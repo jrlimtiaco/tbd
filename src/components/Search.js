@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native"
+import React, { useCallback, useEffect, useState } from "react"
+import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 
@@ -12,24 +12,33 @@ import { formatCollection } from "../utils/collection"
 
 const Search = () => {
   const [results, setResults] = useState([])
-  const [search, setSearch] = useState(null)
+  const [search, setSearch] = useState("")
 
   useEffect(() => {
-    if (search) {
-      const searchUsers = async () => {
-        await firebase
-          .firestore()
-          .collection("Users")
-          .where("email", "==", search)
-          .get()
-          .then(querySnapshot => {
-            const results = formatCollection(querySnapshot)
-            setResults(results)
-          })
-      }
-      searchUsers()
+    const searchUsers = () => {
+      firebase
+        .firestore()
+        .collection("Users")
+        .get()
+        .then(querySnapshot => {
+          setResults(formatCollection(querySnapshot))
+        })
     }
-  }, [search])
+    searchUsers()
+  }, [])
+
+  const renderItem = useCallback(({ item, index }) => {
+    return (
+      <View style={styles.itemContainer}>
+        <TouchableOpacity onPress={() => null} style={styles.item}>
+          <Icon.Feather name="user" size={25} />
+          <View style={styles.itemText}>
+            <Text size="small">{item.email}</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    )
+  })
 
   return (
     <Flex>
@@ -48,6 +57,15 @@ const Search = () => {
           style={styles.textInput}
           underlineColorAndroid="transparent"
           value={search}
+        />
+        <FlatList
+          keyboardDismissMode="on-drag"
+          keyExtractor={item => item.id}
+          renderItem={renderItem}
+          data={search
+            ? results.filter(result => result.email.toLowerCase().includes(search.toLowerCase()))
+            : []
+          }
         />
       </Flex>
     </Flex>
@@ -72,6 +90,18 @@ const styles = StyleSheet.create({
   },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
+  },
+  item: {
+    alignItems: "center",
+    flexDirection: "row",
+    paddingVertical: DEFAULT_PADDING,
+  },
+  itemContainer: {
+    borderColor: Colors.lightGray,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  itemText: {
+    paddingHorizontal: DEFAULT_PADDING,
   },
   textInput: {
     borderBottomColor: Colors.lightGray,
