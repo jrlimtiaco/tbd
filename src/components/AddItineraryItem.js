@@ -1,18 +1,19 @@
 import React, { Component } from "react"
 import { Alert, StyleSheet, TouchableOpacity } from "react-native"
 import { Subscribe } from "unstated"
+import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 import moment from "moment"
 import uuidV4 from "uuid/v4"
 
-import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
 import DateTimePicker from "react-native-modal-datetime-picker"
 import Flex from "./common/Flex"
 import Headline from "./common/Headline"
 import Input from "./common/Input"
-import ProfileContainer from "../containers/ProfileContainer"
 import Text from "./common/Text"
+
+import ProfileContainer from "../containers/ProfileContainer"
 import TripContainer from "../containers/TripContainer"
 
 import { DEVICE_WIDTH } from "../constants/dimensions"
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     backgroundColor: Colors.white,
     borderWidth: 2,
-    marginTop: 30,
+    marginVertical: 20,
     width: DEVICE_WIDTH / 2,
   },
   container: {

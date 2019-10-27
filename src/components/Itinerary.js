@@ -2,18 +2,18 @@ import React, { Component } from "react"
 import { Alert, FlatList, LayoutAnimation, StyleSheet, TouchableOpacity, View } from "react-native"
 import { Subscribe } from "unstated"
 import { groupBy } from "lodash"
+import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 import moment from "moment"
 
-import * as Icon from "@expo/vector-icons"
 import Flex from "./common/Flex"
 import EmptyListText from "./common/EmptyListText"
 import Headline from "./common/Headline"
 import Text from "./common/Text"
+
 import ItineraryContainer from "../containers/ItineraryContainer"
 import TripContainer from "../containers/TripContainer"
 
-import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
 import { ADD_ITINERARY_ITEM } from "../constants/routes"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
@@ -136,7 +136,12 @@ class Itinerary extends Component {
                 <Text size="xlarge" color={Colors.darkGray} style={styles.dates} type={Fonts.CerealBold}>
                   {displayDates({ startDate, endDate })}
                 </Text>
-                <View style={styles.dateScrollerContainer}>
+                <View
+                  style={[
+                    styles.dateScrollerContainer,
+                    !!selectedDayEvents.length && styles.border,
+                  ]}
+                >
                   <FlatList
                     horizontal
                     data={dates}
@@ -173,6 +178,11 @@ class Itinerary extends Component {
 export default Itinerary
 
 const styles = StyleSheet.create({
+  border: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.gray,
+    paddingBottom: DEFAULT_PADDING,
+  },
   container: {
     flex: 1,
     paddingHorizontal: DEFAULT_PADDING,
@@ -183,7 +193,6 @@ const styles = StyleSheet.create({
   dateScrollerContainer: {
     alignItems: "center",
     justifyContent: "center",
-    marginBottom: DEFAULT_PADDING,
   },
   dot: {
     backgroundColor: Colors.darkGray,
