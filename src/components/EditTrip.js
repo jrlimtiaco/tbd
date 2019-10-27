@@ -11,7 +11,7 @@ import Text from "./common/Text"
 import ProfileContainer from "../containers/ProfileContainer"
 
 import { displayDates } from "../utils/dates"
-import { CALENDAR, LOCATION, TRIP } from "../constants/routes"
+import { CALENDAR, LOCATION, SEARCH, TRIP } from "../constants/routes"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
 
@@ -106,6 +106,20 @@ class EditTrip extends Component {
     )
   }
 
+  _renderUsers = () => {
+    return (
+      <TouchableOpacity
+        style={styles.row}
+        onPress={() => this.props.navigation.navigate(SEARCH)}
+      >
+        <Text size="xxlarge" type={Fonts.CerealExtraBold}>
+          Who
+        </Text>
+        <Icon.Feather name="chevron-right" size={30} />
+      </TouchableOpacity>
+    )
+  }
+
   render() {
     return (
       <Subscribe to={[ProfileContainer]}>
@@ -119,12 +133,7 @@ class EditTrip extends Component {
                 <View style={styles.separator} />
                 {this._renderStartAndEndDate()}
                 <View style={styles.separator} />
-                <TouchableOpacity style={styles.row}>
-                  <Text size="xxlarge" type={Fonts.CerealExtraBold}>
-                    Who
-                  </Text>
-                  <Icon.Feather name="chevron-right" size={30} />
-                </TouchableOpacity>
+                {this._renderUsers()}
                 <View style={styles.separator} />
                 <Button
                   pending={this.state.pending}
