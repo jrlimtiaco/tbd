@@ -15,6 +15,7 @@ import Text from "./common/Text"
 
 import TripContainer from "../containers/TripContainer"
 
+import { DEVICE_WIDTH } from "../constants/dimensions"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 class AddPoll extends Component {
@@ -25,6 +26,14 @@ class AddPoll extends Component {
           <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
         </TouchableOpacity>
       ),
+      headerRight: (
+        <TouchableOpacity onPress={navigation.getParam("onPress")} style={styles.optionIcon}>
+          <Icon.AntDesign color={Colors.darkGray} name="plus" size={14} />
+          <Text color={Colors.darkGray} style={styles.optionText}>
+            Option
+          </Text>
+        </TouchableOpacity>
+      ),
     }
   }
 
@@ -32,6 +41,14 @@ class AddPoll extends Component {
     numberOfOptions: 2,
     pending: false,
     question: null,
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({ onPress: this._onPress })
+  }
+
+  _onPress = () => {
+    this.setState(state => ({ numberOfOptions: state.numberOfOptions + 1 }))
   }
 
   _createPoll = async () => {
@@ -144,19 +161,15 @@ class AddPoll extends Component {
                       </View>
                     )
                   })}
-                  <AddButton
-                    onPress={() => this.setState({ numberOfOptions: numberOfOptions + 1 })}
-                    text="Add option"
-                  />
+                  <Button
+                    onPress={this._createPoll}
+                    pending={pending}
+                    style={styles.createButton}
+                  >
+                    <Text>Create poll</Text>
+                  </Button>
                 </ScrollView>
               </Flex>
-              <Button
-                onPress={this._createPoll}
-                pending={pending}
-                style={styles.createButton}
-              >
-                <Text>Create poll</Text>
-              </Button>
             </Flex>
           )
         }}
@@ -169,15 +182,25 @@ export default AddPoll
 
 const styles = StyleSheet.create({
   createButton: {
+    alignSelf: "center",
     backgroundColor: Colors.white,
     borderWidth: 2,
-    marginHorizontal: 40,
+    marginVertical: 20,
+    width: "50%",
   },
   container: {
     marginHorizontal: DEFAULT_PADDING,
   },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
+  },
+  optionIcon: {
+    alignItems: "center",
+    flexDirection: "row",
+    paddingHorizontal: DEFAULT_PADDING / 2,
+  },
+  optionText: {
+    paddingLeft: 2,
   },
   textInput: {
     borderBottomColor: Colors.lightGray,
