@@ -8,8 +8,8 @@ import CreateFirstTrip from "./CreateFirstTrip"
 import Polls from "./Polls"
 import Text from "./common/Text"
 
-import ProfileContainer from "../containers/ProfileContainer"
 import TripContainer from "../containers/TripContainer"
+import UsersTripsContainer from "../containers/UsersTripsContainer"
 import { Subscribe } from "unstated"
 
 import { displayDates } from "../utils/dates"
@@ -25,12 +25,12 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <Subscribe to={[ProfileContainer, TripContainer]}>
-        {(profileContainer, tripContainer) => {
+      <Subscribe to={[TripContainer, UsersTripsContainer]}>
+        {(tripContainer, usersTripsContainer) => {
           const { navigation: { navigate } } = this.props
-          const { trips } = profileContainer.state.profile
+          const { usersTrips } = usersTripsContainer.state
           const { trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
-          if (!trips.length) {
+          if (!usersTrips.length) {
             return <CreateFirstTrip />
           } else {
             return (
@@ -57,7 +57,7 @@ export default class HomeScreen extends Component {
                         {users.length} Travelers
                       </Text>
                       <TouchableOpacity
-                        onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate })}
+                        onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate, users })}
                         style={styles.editButton}
                       >
                         <Text size="small" type={Fonts.CerealBold}>

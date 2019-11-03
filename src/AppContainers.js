@@ -2,21 +2,25 @@ import React, { Component } from "react"
 import firebase from "firebase"
 
 import ChatContainer from "./containers/ChatContainer"
+import InvitesContainer from "./containers/InvitesContainer"
 import ItineraryContainer from "./containers/ItineraryContainer"
 import PollsContainer from "./containers/PollsContainer"
 import ProfileContainer from "./containers/ProfileContainer"
 import SuggestionsContainer from "./containers/SuggestionsContainer"
 import TripContainer from "./containers/TripContainer"
+import UsersTripsContainer from "./containers/UsersTripsContainer"
 
 import { Provider, Subscribe } from "unstated"
 
 const CONTAINERS = [
   ChatContainer,
+  InvitesContainer,
   ItineraryContainer,
   PollsContainer,
   ProfileContainer,
   SuggestionsContainer,
   TripContainer,
+  UsersTripsContainer,
 ]
 
 class AppContainers extends Component {

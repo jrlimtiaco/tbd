@@ -5,6 +5,7 @@ import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 import moment from "moment"
 
+import EmptyListText from "./common/EmptyListText"
 import Flex from "./common/Flex"
 import Loader from "./common/Loader"
 import Text from "./common/Text"
@@ -15,6 +16,7 @@ import PollsContainer from "../containers/PollsContainer"
 import ProfileContainer from "../containers/ProfileContainer"
 import SuggestionsContainer from "../containers/SuggestionsContainer"
 import TripContainer from "../containers/TripContainer"
+import UsersTripsContainer from "../containers/UsersTripsContainer"
 
 import { displayDates } from "../utils/dates"
 import { Colors, DEFAULT_PADDING } from "../constants/style"
@@ -79,6 +81,11 @@ const Trips = ({ currentTrip, refresh, trips }) => {
           data={tripList}
           keyExtractor={item => item.id}
           renderItem={renderItem}
+          ListEmptyComponent={(
+            <EmptyListText>
+              No trips
+            </EmptyListText>
+          )}
         />
       )}
     </Flex>
@@ -94,7 +101,8 @@ const TripsConainer = () => {
         PollsContainer,
         ProfileContainer,
         SuggestionsContainer,
-        TripContainer
+        TripContainer,
+        UsersTripsContainer
       ]}
     >
       {(chatContainer,
@@ -102,11 +110,12 @@ const TripsConainer = () => {
         pollsContainer,
         profileContainer,
         suggestionsContainer,
-        tripContainer
+        tripContainer,
+        usersTripsContainer
       ) => (
         <Trips
           currentTrip={profileContainer.state.profile.currentTrip}
-          trips={profileContainer.state.profile.trips}
+          trips={usersTripsContainer.state.usersTrips}
           refresh={() => {
             chatContainer._refreshChat()
             itineraryContainer._refreshItinerary()

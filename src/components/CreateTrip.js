@@ -32,6 +32,7 @@ class CreateTrip extends Component {
     endDate: null,
     location: null,
     startDate: null,
+    users: [],
   }
 
   _createTrip = async ({ refreshProfile, refreshTrips, trips }) => {
@@ -48,8 +49,12 @@ class CreateTrip extends Component {
           .doc(`${firebase.auth().currentUser.uid}`)
           .update({
             currentTrip: newTripRef.id,
-            trips: [...trips, newTripRef.id],
           })
+        await db.collection("UsersTrips")
+          .doc(`${firebase.auth().currentUser.uid}`)
+          .collection("usersTrips")
+          .doc(newTripRef.id)
+          .set({})
         await newTripRef.set({
           endDate,
           location,
@@ -72,6 +77,7 @@ class CreateTrip extends Component {
   _renderLocation = () => {
     const { location } = this.state
     return (
+      <View style={styles.item}>
       <TouchableOpacity
         style={styles.row}
         onPress={() => {
@@ -94,12 +100,14 @@ class CreateTrip extends Component {
           />
         )}
       </TouchableOpacity>
+      </View>
     )
   }
 
   _renderStartAndEndDate = () => {
     const { endDate, startDate } = this.state
     return (
+      <View style={styles.item}>
       <TouchableOpacity
         style={styles.row}
         onPress={() => {
@@ -122,20 +130,38 @@ class CreateTrip extends Component {
           />
         )}
       </TouchableOpacity>
+      </View>
     )
   }
 
   _renderUsers = () => {
+    const { users } = this.state
     return (
+      <View style={styles.item}>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => this.props.navigation.navigate(SEARCH)}
+        onPress={() => {
+          this.props.navigation.navigate(SEARCH, {
+            isNewTrip: true,
+            setUsers: users => this.setState({ users })
+          })
+        }}
       >
         <Text size="xxlarge" type={Fonts.CerealExtraBold}>
           Who
         </Text>
-        <Icon.Feather name="chevron-right" size={30} />
+        {users.length ? (
+          <Text size="large" type={Fonts.CerealBold}>
+            {`${users.length} Travelers`}
+          </Text>
+        ) : (
+          <Icon.Feather
+            name="chevron-right"
+            size={30}
+          />
+        )}
       </TouchableOpacity>
+      </View>
     )
   }
 
@@ -150,20 +176,15 @@ class CreateTrip extends Component {
             <Flex>
               <View style={styles.container}>
                 {this._renderLocation()}
-                <View style={styles.separator} />
                 {this._renderStartAndEndDate()}
-                <View style={styles.separator} />
                 {this._renderUsers()}
-                <View style={styles.separator} />
                 <Button
                   pending={this.state.pending}
                   style={styles.createButton}
                   transparent
                   onPress={() => this._createTrip({ refreshProfile, refreshTrips, trips })}
                 >
-                  <Text>
-                    Create
-                  </Text>
+                  <Text>Create</Text>
                 </Button>
               </View>
             </Flex>
@@ -189,15 +210,15 @@ const styles = StyleSheet.create({
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
   },
+  item: {
+    borderBottomColor: Colors.lightGray,
+    borderBottomWidth: 1,
+  },
   row: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 15,
     paddingTop: 30,
-  },
-  separator: {
-    borderBottomColor: Colors.lightGray,
-    borderBottomWidth: 1,
   },
 })
