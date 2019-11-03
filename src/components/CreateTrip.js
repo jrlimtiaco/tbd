@@ -50,11 +50,6 @@ class CreateTrip extends Component {
           .update({
             currentTrip: newTripRef.id,
           })
-        await db.collection("UsersTrips")
-          .doc(`${firebase.auth().currentUser.uid}`)
-          .collection("usersTrips")
-          .doc(newTripRef.id)
-          .set({})
         await newTripRef.set({
           endDate,
           location,
@@ -65,6 +60,11 @@ class CreateTrip extends Component {
         })
         refreshProfile()
         refreshTrips()
+        await db.collection("UsersTrips")
+          .doc(`${firebase.auth().currentUser.uid}`)
+          .collection("usersTrips")
+          .doc(newTripRef.id)
+          .set({})
         Alert.alert("Trip Created", "You successfully created your trip.")
         navigation.navigate(TRIP)
       } catch (err) {
