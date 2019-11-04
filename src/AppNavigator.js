@@ -16,6 +16,7 @@ import CreateTrip from "./components/CreateTrip"
 import Details from "./components/Details"
 import EditTrip from "./components/EditTrip"
 import HomeScreen from './components/HomeScreen'
+import Invites from './components/Invites'
 import Itinerary from './components/Itinerary'
 import NameTrip from "./components/NameTrip"
 import Loader from "./components/common/Loader"
@@ -44,6 +45,7 @@ import {
   CREATE_TRIP,
   DETAILS,
   EDIT_TRIP,
+  INVITES,
   ITINERARY,
   LOCATION,
   LOGIN,
@@ -109,6 +111,7 @@ const AccountStack = createStackNavigator({
   [CALENDAR]: Calendar,
   [TRIPS]: Trips,
   [SEARCH]: Search,
+  [INVITES]: Invites,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({

@@ -7,7 +7,7 @@ import firebase from "firebase"
 import Flex from "./common/Flex"
 import Text from "./common/Text"
 
-import { CREATE_TRIP, TRIPS } from '../constants/routes'
+import { CREATE_TRIP, INVITES, TRIPS } from '../constants/routes'
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 const CREATE_TRIP_ID = "CREATE_TRIP_ID"
@@ -45,21 +45,27 @@ export default class LinksScreen extends React.Component {
   }
 
   _getOnPress = (id) => {
+    const { navigation, showActionSheetWithOptions } = this.props
     let onPress
     switch (id) {
       case CREATE_TRIP_ID:
         onPress = () => {
-          this.props.navigation.navigate(CREATE_TRIP)
+          navigation.navigate(CREATE_TRIP)
+        }
+        break
+      case INVITES_ID:
+        onPress = () => {
+          navigation.navigate(INVITES)
         }
         break
       case TRIPS_ID:
         onPress = () => {
-          this.props.navigation.navigate(TRIPS)
+          navigation.navigate(TRIPS)
         }
         break
       default:
         onPress = () => {
-          this.props.showActionSheetWithOptions({
+          showActionSheetWithOptions({
             options: ['Sign out', 'Cancel'],
             cancelButtonIndex: 1,
           },

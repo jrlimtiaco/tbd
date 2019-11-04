@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
+import { Subscribe } from "unstated"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 
@@ -7,14 +8,18 @@ import Flex from "./common/Flex"
 import Headline from "./common/Headline"
 import Text from "./common/Text"
 
+import TripContainer from "../containers/TripContainer"
+
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 import { formatCollection } from "../utils/collection"
 
-const Search = () => {
+const Search = ({ navigation, users }) => {
+  const [selectedUsers, setSelectedUsers] = useState(users || [])
   const [results, setResults] = useState([])
   const [search, setSearch] = useState("")
 
   useEffect(() => {
+    navigation.setParams({ selectedUsers })
     const searchUsers = () => {
       firebase
         .firestore()
@@ -27,18 +32,30 @@ const Search = () => {
     searchUsers()
   }, [])
 
+  const onPress = useCallback((userId) => {
+    const updatedUsers = selectedUsers.includes(userId)
+      ? selectedUsers.filter(selectedUser => selectedUser !== userId)
+      : [...selectedUsers, userId]
+    setSelectedUsers(updatedUsers)
+    navigation.setParams({ selectedUsers: updatedUsers })
+  }, [selectedUsers])
+
   const renderItem = useCallback(({ item, index }) => {
+    const isSelected = selectedUsers.includes(item.id)
     return (
       <View style={styles.itemContainer}>
-        <TouchableOpacity onPress={() => null} style={styles.item}>
-          <Icon.Feather name="user" size={25} />
-          <View style={styles.itemText}>
-            <Text size="small">{item.email}</Text>
+        <TouchableOpacity onPress={() => onPress(item.id)} style={styles.itemRow}>
+          <View style={styles.item}>
+            <Icon.Feather name="user" size={25} />
+            <View style={styles.itemText}>
+              <Text size="small">{item.email}</Text>
+            </View>
           </View>
+          {isSelected && <Icon.Feather name="check" size={25} />}
         </TouchableOpacity>
       </View>
     )
-  })
+  }, [selectedUsers])
 
   return (
     <Flex>
@@ -72,17 +89,42 @@ const Search = () => {
   )
 }
 
-Search.navigationOptions = ({ navigation }) => {
+const SearchContainer = ({ navigation }) => {
+  return (
+    <Subscribe to={[TripContainer]}>
+      {tripContainer => (
+        <Search
+          navigation={navigation}
+          users={navigation.getParam("isNewTrip", false)
+            ? []
+            : tripContainer.state.trip.users
+          }
+        />
+      )}
+    </Subscribe>
+  )
+}
+
+SearchContainer.navigationOptions = ({ navigation }) => {
   return {
     headerLeft: (
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerIcon}>
+      <TouchableOpacity
+        style={styles.headerIcon}
+        onPress={() => {
+          const setUsers = navigation.getParam("setUsers")
+          if (setUsers) {
+            setUsers(navigation.getParam("selectedUsers"))
+          }
+          navigation.goBack()
+        }}
+      >
         <Icon.AntDesign color={Colors.darkGray} name="left" size={25} />
       </TouchableOpacity>
     ),
   }
 }
 
-export default Search
+export default SearchContainer
 
 const styles = StyleSheet.create({
   container: {
@@ -99,6 +141,11 @@ const styles = StyleSheet.create({
   itemContainer: {
     borderColor: Colors.lightGray,
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  itemRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   itemText: {
     paddingHorizontal: DEFAULT_PADDING,

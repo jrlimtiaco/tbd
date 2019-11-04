@@ -8,7 +8,11 @@ import Button from "./common/Button"
 import Flex from "./common/Flex"
 import Text from "./common/Text"
 
+import ChatContainer from "../containers/ChatContainer"
+import ItineraryContainer from "../containers/ItineraryContainer"
+import PollsContainer from "../containers/PollsContainer"
 import ProfileContainer from "../containers/ProfileContainer"
+import SuggestionsContainer from "../containers/SuggestionsContainer"
 import TripContainer from "../containers/TripContainer"
 
 import { displayDates, getTripDates } from "../utils/dates"
@@ -32,9 +36,10 @@ class CreateTrip extends Component {
     endDate: null,
     location: null,
     startDate: null,
+    users: [],
   }
 
-  _createTrip = async ({ refreshProfile, refreshTrips, trips }) => {
+  _createTrip = async ({ refresh }) => {
     const { navigation } = this.props
     const { endDate, location, startDate } = this.state
     if (!endDate || !location || !startDate) {
@@ -48,7 +53,6 @@ class CreateTrip extends Component {
           .doc(`${firebase.auth().currentUser.uid}`)
           .update({
             currentTrip: newTripRef.id,
-            trips: [...trips, newTripRef.id],
           })
         await newTripRef.set({
           endDate,
@@ -58,8 +62,12 @@ class CreateTrip extends Component {
           tripItems: [],
           users: [firebase.auth().currentUser.uid],
         })
-        refreshProfile()
-        refreshTrips()
+        refresh()
+        await db.collection("UsersTrips")
+          .doc(`${firebase.auth().currentUser.uid}`)
+          .collection("usersTrips")
+          .doc(newTripRef.id)
+          .set({})
         Alert.alert("Trip Created", "You successfully created your trip.")
         navigation.navigate(TRIP)
       } catch (err) {
@@ -72,6 +80,7 @@ class CreateTrip extends Component {
   _renderLocation = () => {
     const { location } = this.state
     return (
+      <View style={styles.item}>
       <TouchableOpacity
         style={styles.row}
         onPress={() => {
@@ -94,12 +103,14 @@ class CreateTrip extends Component {
           />
         )}
       </TouchableOpacity>
+      </View>
     )
   }
 
   _renderStartAndEndDate = () => {
     const { endDate, startDate } = this.state
     return (
+      <View style={styles.item}>
       <TouchableOpacity
         style={styles.row}
         onPress={() => {
@@ -122,48 +133,85 @@ class CreateTrip extends Component {
           />
         )}
       </TouchableOpacity>
+      </View>
     )
   }
 
   _renderUsers = () => {
+    const { users } = this.state
     return (
+      <View style={styles.item}>
       <TouchableOpacity
         style={styles.row}
-        onPress={() => this.props.navigation.navigate(SEARCH)}
+        onPress={() => {
+          this.props.navigation.navigate(SEARCH, {
+            isNewTrip: true,
+            setUsers: users => this.setState({ users })
+          })
+        }}
       >
         <Text size="xxlarge" type={Fonts.CerealExtraBold}>
           Who
         </Text>
-        <Icon.Feather name="chevron-right" size={30} />
+        {users.length ? (
+          <Text size="large" type={Fonts.CerealBold}>
+            {`${users.length} Travelers`}
+          </Text>
+        ) : (
+          <Icon.Feather
+            name="chevron-right"
+            size={30}
+          />
+        )}
       </TouchableOpacity>
+      </View>
     )
   }
 
   render() {
     return (
-      <Subscribe to={[ProfileContainer, TripContainer]}>
-        {(profileContainer, tripContainer) => {
-          const { _refreshProfile: refreshProfile } = profileContainer
-          const { _refreshTrips: refreshTrips } = tripContainer
-          const { trips } = profileContainer.state.profile
+      <Subscribe
+        to={[
+          ChatContainer,
+          ItineraryContainer,
+          PollsContainer,
+          ProfileContainer,
+          SuggestionsContainer,
+          TripContainer
+        ]}
+      >
+        {(
+          chatContainer,
+          itineraryContainer,
+          pollsContainer,
+          profileContainer,
+          suggestionsContainer,
+          tripContainer
+        ) => {
           return (
             <Flex>
               <View style={styles.container}>
                 {this._renderLocation()}
-                <View style={styles.separator} />
                 {this._renderStartAndEndDate()}
-                <View style={styles.separator} />
                 {this._renderUsers()}
-                <View style={styles.separator} />
                 <Button
                   pending={this.state.pending}
                   style={styles.createButton}
                   transparent
-                  onPress={() => this._createTrip({ refreshProfile, refreshTrips, trips })}
+                  onPress={() => {
+                    this._createTrip({
+                      refresh: () => {
+                        chatContainer._refreshChat()
+                        itineraryContainer._refreshItinerary()
+                        pollsContainer._refreshPolls()
+                        profileContainer._refreshProfile()
+                        suggestionsContainer._refreshSuggestions()
+                        tripContainer._refreshTrips()
+                      },
+                    })
+                  }}
                 >
-                  <Text>
-                    Create
-                  </Text>
+                  <Text>Create</Text>
                 </Button>
               </View>
             </Flex>
@@ -189,15 +237,15 @@ const styles = StyleSheet.create({
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
   },
+  item: {
+    borderBottomColor: Colors.lightGray,
+    borderBottomWidth: 1,
+  },
   row: {
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 15,
     paddingTop: 30,
-  },
-  separator: {
-    borderBottomColor: Colors.lightGray,
-    borderBottomWidth: 1,
   },
 })
