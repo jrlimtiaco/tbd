@@ -12,15 +12,17 @@ import { Colors, Fonts } from "../../constants/style"
 class Login extends Component {
   state = {
     email: null,
+    firstName: null,
+    lastName: null,
     password: null,
     passwordConfirm: null,
     pending: false,
   }
 
   _signup = async () => {
-    const { email, password, passwordConfirm } = this.state
-    if ([email, password, passwordConfirm].some(field => !field)) {
-      return [this._email, this._password, this._passwordConfirm].forEach(input => input.validate())
+    const { email, firstName, lastName, password, passwordConfirm } = this.state
+    if ([email, firstName, lastName, password, passwordConfirm].some(field => !field)) {
+      return [this._email, this._firstName, this._lastName, this._password, this._passwordConfirm].forEach(input => input.validate())
     } else {
       this._email.validate()
       if (this._email.hasErrors()) return
@@ -35,6 +37,8 @@ class Login extends Component {
         .set({
           currentTrip: null,
           email,
+          firstName,
+          lastName,
         })
     } catch (err) {
       Alert.alert("Error", err.message)
@@ -50,8 +54,30 @@ class Login extends Component {
             Signup
           </Text>
           <Input
-            ref={ref => (this._email = ref)}
+            ref={ref => (this._firstName = ref)}
             autoFocus
+            containerStyle={styles.input}
+            id="firstName"
+            onChangeText={firstName => this.setState({ firstName })}
+            onSubmitEditing={() => this._lastName.focus()}
+            placeholder="First Name"
+            required
+            returnKeyType="next"
+            value={this.state.firstName}
+          />
+          <Input
+            ref={ref => (this._lastName = ref)}
+            containerStyle={styles.input}
+            id="lastName"
+            onChangeText={lastName => this.setState({ lastName })}
+            onSubmitEditing={() => this._email.focus()}
+            placeholder="Last Name"
+            required
+            returnKeyType="next"
+            value={this.state.lastName}
+          />
+          <Input
+            ref={ref => (this._email = ref)}
             containerStyle={styles.input}
             id="email"
             onChangeText={text => this.setState({ email: text })}
