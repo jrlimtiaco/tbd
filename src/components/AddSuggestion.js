@@ -43,8 +43,6 @@ class AddSuggestion extends Component {
             likes: [],
             suggestion: this.state.suggestion,
             createdAt: (new Date()).toISOString(),
-          }, {
-            merge: true
           })
         this.props.navigation.goBack()
       } catch (err) {

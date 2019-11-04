@@ -8,7 +8,11 @@ import Button from "./common/Button"
 import Flex from "./common/Flex"
 import Text from "./common/Text"
 
+import ChatContainer from "../containers/ChatContainer"
+import ItineraryContainer from "../containers/ItineraryContainer"
+import PollsContainer from "../containers/PollsContainer"
 import ProfileContainer from "../containers/ProfileContainer"
+import SuggestionsContainer from "../containers/SuggestionsContainer"
 import TripContainer from "../containers/TripContainer"
 
 import { displayDates, getTripDates } from "../utils/dates"
@@ -35,7 +39,7 @@ class CreateTrip extends Component {
     users: [],
   }
 
-  _createTrip = async ({ refreshProfile, refreshTrips, trips }) => {
+  _createTrip = async ({ refresh }) => {
     const { navigation } = this.props
     const { endDate, location, startDate } = this.state
     if (!endDate || !location || !startDate) {
@@ -58,8 +62,7 @@ class CreateTrip extends Component {
           tripItems: [],
           users: [firebase.auth().currentUser.uid],
         })
-        refreshProfile()
-        refreshTrips()
+        refresh()
         await db.collection("UsersTrips")
           .doc(`${firebase.auth().currentUser.uid}`)
           .collection("usersTrips")
@@ -167,11 +170,24 @@ class CreateTrip extends Component {
 
   render() {
     return (
-      <Subscribe to={[ProfileContainer, TripContainer]}>
-        {(profileContainer, tripContainer) => {
-          const { _refreshProfile: refreshProfile } = profileContainer
-          const { _refreshTrips: refreshTrips } = tripContainer
-          const { trips } = profileContainer.state.profile
+      <Subscribe
+        to={[
+          ChatContainer,
+          ItineraryContainer,
+          PollsContainer,
+          ProfileContainer,
+          SuggestionsContainer,
+          TripContainer
+        ]}
+      >
+        {(
+          chatContainer,
+          itineraryContainer,
+          pollsContainer,
+          profileContainer,
+          suggestionsContainer,
+          tripContainer
+        ) => {
           return (
             <Flex>
               <View style={styles.container}>
@@ -182,7 +198,18 @@ class CreateTrip extends Component {
                   pending={this.state.pending}
                   style={styles.createButton}
                   transparent
-                  onPress={() => this._createTrip({ refreshProfile, refreshTrips, trips })}
+                  onPress={() => {
+                    this._createTrip({
+                      refresh: () => {
+                        chatContainer._refreshChat()
+                        itineraryContainer._refreshItinerary()
+                        pollsContainer._refreshPolls()
+                        profileContainer._refreshProfile()
+                        suggestionsContainer._refreshSuggestions()
+                        tripContainer._refreshTrips()
+                      },
+                    })
+                  }}
                 >
                   <Text>Create</Text>
                 </Button>

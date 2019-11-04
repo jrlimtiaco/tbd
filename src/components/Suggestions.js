@@ -20,11 +20,10 @@ class Suggestions extends Component {
     return (
       <Subscribe to={[SuggestionsContainer]}>
         {(suggestionsContainer) => {
-          this._suggestions = suggestionsContainer.state.suggestions
           return (
             <Flex>
               <FlatList
-                data={this._suggestions}
+                data={suggestionsContainer.state.suggestions}
                 keyExtractor={item => item.id}
                 renderItem={this._renderItem}
                 showsVerticalScrollIndicator={false}

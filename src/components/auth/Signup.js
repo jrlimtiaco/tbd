@@ -35,7 +35,6 @@ class Login extends Component {
         .set({
           currentTrip: null,
           email,
-          trips: [],
         })
     } catch (err) {
       Alert.alert("Error", err.message)
