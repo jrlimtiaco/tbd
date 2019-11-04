@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import { StyleSheet, TouchableOpacity, View } from "react-native"
+import { StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
+import { connectActionSheet } from '@expo/react-native-action-sheet'
 import firebase from "firebase"
 
 import * as Icon from "@expo/vector-icons"
@@ -7,6 +8,7 @@ import Text from "./common/Text"
 
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
+@connectActionSheet
 class PollItem extends Component {
 
   _onPress = async (pollId, optionId) => {
@@ -35,9 +37,35 @@ class PollItem extends Component {
     }
   }
 
+  _onLongPress = (pollId) => {
+    this.props.showActionSheetWithOptions({
+      options: ['Delete', 'Cancel'],
+      cancelButtonIndex: 1,
+      destructiveButtonIndex: 0,
+      },
+      async buttonIndex => {
+        if (buttonIndex === 0) {
+          const profile = await firebase
+            .firestore()
+            .collection("Users")
+            .doc(firebase.auth().currentUser.uid)
+            .get()
+          const { currentTrip } = profile.data()
+          await firebase.firestore()
+            .collection("Polls")
+            .doc(currentTrip)
+            .collection("polls")
+            .doc(pollId)
+            .delete()
+        }
+      }
+    )
+  }
+
   render() {
     const { id, options, question } = this.props.poll
     return (
+      <TouchableWithoutFeedback onLongPress={() => this._onLongPress(id)}>
       <View style={styles.pollContainer}>
         <Text color={Colors.darkGray} size="xxlarge" style={styles.question} type={Fonts.CerealExtraBold}>
           {question}
@@ -70,6 +98,7 @@ class PollItem extends Component {
           )
         })}
       </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
