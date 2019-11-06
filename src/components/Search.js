@@ -48,7 +48,12 @@ const Search = ({ navigation, users }) => {
           <View style={styles.item}>
             <Icon.Feather name="user" size={25} />
             <View style={styles.itemText}>
-              <Text size="small">{item.email}</Text>
+              <Text>
+                {item.firstName} {item.lastName}
+              </Text>
+              <Text color={Colors.darkGray} size="small">
+                {item.email}
+              </Text>
             </View>
           </View>
           {isSelected && <Icon.Feather name="check" size={25} />}
@@ -80,7 +85,11 @@ const Search = ({ navigation, users }) => {
           keyExtractor={item => item.id}
           renderItem={renderItem}
           data={search
-            ? results.filter(result => result.email.toLowerCase().includes(search.toLowerCase()))
+            ? results.filter(result =>
+                result.email.toLowerCase().includes(search.toLowerCase()) ||
+                result.firstName.toLowerCase().includes(search.toLowerCase()) ||
+                result.lastName.toLowerCase().includes(search.toLowerCase())
+              )
             : []
           }
         />
