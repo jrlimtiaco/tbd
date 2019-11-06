@@ -15,7 +15,7 @@ import { Subscribe } from "unstated"
 import { displayDates } from "../utils/dates"
 
 import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
-import { CHAT, CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, NAME_TRIP, POLLS } from "../constants/routes"
+import { CHAT, CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, NAME_TRIP, POLLS, USER_LIST } from "../constants/routes"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
 export default class HomeScreen extends Component {
@@ -53,9 +53,11 @@ export default class HomeScreen extends Component {
                       </Text>
                     </Text>
                     <View style={styles.editAndTravelersContainer}>
-                      <Text size="small" type={Fonts.CerealBlack}>
-                        {users.length} Travelers
-                      </Text>
+                      <TouchableOpacity onPress={() => navigate(USER_LIST)}>
+                        <Text size="small" type={Fonts.CerealBlack}>
+                          {users.length} Travelers
+                        </Text>
+                      </TouchableOpacity>
                       <TouchableOpacity
                         onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate, users })}
                         style={styles.editButton}

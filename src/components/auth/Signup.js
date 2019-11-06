@@ -57,7 +57,7 @@ class Login extends Component {
             ref={ref => (this._firstName = ref)}
             autoFocus
             containerStyle={styles.input}
-            id="firstName"
+            id="first name"
             onChangeText={firstName => this.setState({ firstName })}
             onSubmitEditing={() => this._lastName.focus()}
             placeholder="First Name"
@@ -68,7 +68,7 @@ class Login extends Component {
           <Input
             ref={ref => (this._lastName = ref)}
             containerStyle={styles.input}
-            id="lastName"
+            id="last name"
             onChangeText={lastName => this.setState({ lastName })}
             onSubmitEditing={() => this._email.focus()}
             placeholder="Last Name"

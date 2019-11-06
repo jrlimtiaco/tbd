@@ -27,6 +27,7 @@ import Search from "./components/Search"
 import Signup from "./components/auth/Signup"
 import Suggestions from "./components/Suggestions"
 import Trips from "./components/Trips"
+import UserList from "./components/UserList"
 
 import { Colors, Fonts } from "./constants/style"
 
@@ -56,6 +57,7 @@ import {
   SUGGESTIONS,
   TRIP,
   TRIPS,
+  USER_LIST,
 } from "./constants/routes"
 
 const TripStack = createStackNavigator({
@@ -76,6 +78,7 @@ const TripStack = createStackNavigator({
   [LOCATION]: LocationPicker,
   [CALENDAR]: Calendar,
   [SEARCH]: Search,
+  [USER_LIST]: UserList,
 }, {
   headerLayoutPreset: "center",
   navigationOptions: ({ navigation }) => ({
