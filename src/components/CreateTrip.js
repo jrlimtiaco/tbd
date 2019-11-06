@@ -41,7 +41,7 @@ class CreateTrip extends Component {
 
   _createTrip = async ({ refresh }) => {
     const { navigation } = this.props
-    const { endDate, location, startDate } = this.state
+    const { endDate, location, startDate, users } = this.state
     if (!endDate || !location || !startDate) {
       Alert.alert("Error", "You must select a destination and pick dates to create a trip.")
     } else {
@@ -50,7 +50,7 @@ class CreateTrip extends Component {
         const db = firebase.firestore()
         const newTripRef = await db.collection("Trips").doc()
         await db.collection("Users")
-          .doc(`${firebase.auth().currentUser.uid}`)
+          .doc(firebase.auth().currentUser.uid)
           .update({
             currentTrip: newTripRef.id,
           })
@@ -64,10 +64,18 @@ class CreateTrip extends Component {
         })
         refresh()
         await db.collection("UsersTrips")
-          .doc(`${firebase.auth().currentUser.uid}`)
+          .doc(firebase.auth().currentUser.uid)
           .collection("usersTrips")
           .doc(newTripRef.id)
           .set({})
+        await Promise.all(users.map(async user => 
+          await db
+            .collection("Invites")
+            .doc(user)
+            .collection("invites")
+            .doc(newTripRef.id)
+            .set({})
+        ))
         Alert.alert("Trip Created", "You successfully created your trip.")
         navigation.navigate(TRIP)
       } catch (err) {
