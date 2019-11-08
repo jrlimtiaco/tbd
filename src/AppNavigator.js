@@ -29,6 +29,8 @@ import Suggestions from "./components/Suggestions"
 import Trips from "./components/Trips"
 import UserList from "./components/UserList"
 
+import { InviteCountTab } from "./components/InviteCount"
+
 import { Colors, Fonts } from "./constants/style"
 
 import {
@@ -157,12 +159,15 @@ const AppStack = createBottomTabNavigator({
         iconName = "user"
       }
       return (
-        <Icon.Feather
-          color={focused ? Colors.black : Colors.gray}
-          name={iconName}
-          size={horizontal ? 20 : 26}
-          style={{ marginBottom: -3 }}
-        />
+        <>
+          <Icon.Feather
+            color={focused ? Colors.black : Colors.gray}
+            name={iconName}
+            size={horizontal ? 20 : 26}
+            style={{ marginBottom: -3 }}
+          />
+          {routeName === ACCOUNT && <InviteCountTab />}
+        </>
       )
     },
     tabBarOptions: {
