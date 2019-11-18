@@ -8,6 +8,7 @@ import Headline from "./common/Headline"
 import Polls from "./Polls"
 import Suggestions from "./Suggestions"
 import Text from "./common/Text"
+import UnreadCount, { POLL, SUGGESTION } from "./UnreadCount"
 
 import { ADD_POLL, ADD_SUGGESTION, POLLS, SUGGESTIONS } from "../constants/routes"
 import { Colors, Fonts, DEFAULT_PADDING } from "../constants/style"
@@ -71,6 +72,8 @@ class Details extends Component {
         <Text size="small" style={styles.tabText}>
           {item.title}
         </Text>
+        {item.id === "polls" && <UnreadCount type={POLL} />}
+        {item.id === "suggestions" && <UnreadCount type={SUGGESTION} />}
       </TouchableOpacity>
     )
   }

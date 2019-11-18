@@ -17,12 +17,14 @@ export default class SuggestionsContainer extends Container {
   _getSuggestions = async () => {
     try {
       const db = firebase.firestore()
-      const profile = await db.collection("Users").doc(`${firebase.auth().currentUser.uid}`).get()
-      const { currentTrip } = profile.data()
+      const { currentTrip } = (await db
+        .collection("Users")
+        .doc(firebase.auth().currentUser.uid)
+        .get())
+        .data()
       if (currentTrip) {
-        const suggestions = await db
-          .collection("Suggestions")
-          .doc(`${currentTrip}`)
+        db.collection("Suggestions")
+          .doc(currentTrip)
           .collection("suggestions")
           .onSnapshot(snapshot => {
             this.setState({

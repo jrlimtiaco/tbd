@@ -30,6 +30,7 @@ import Trips from "./components/Trips"
 import UserList from "./components/UserList"
 
 import { InviteCountTab } from "./components/InviteCount"
+import UnreadCount, { TAB } from "./components/UnreadCount"
 
 import { Colors, Fonts } from "./constants/style"
 
@@ -167,6 +168,7 @@ const AppStack = createBottomTabNavigator({
             style={{ marginBottom: -3 }}
           />
           {routeName === ACCOUNT && <InviteCountTab />}
+          {routeName === TRIP && <UnreadCount type={TAB} />}
         </>
       )
     },

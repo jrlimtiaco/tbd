@@ -21,7 +21,7 @@ export default ({ count }) => {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: Colors.purple,
+    backgroundColor: Colors.red,
     borderRadius: 9,
     justifyContent: "center",
     position: "absolute",

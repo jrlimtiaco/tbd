@@ -1,11 +1,13 @@
 import React, { Component } from "react"
 import { FlatList } from "react-native"
 import { Subscribe } from "unstated"
+import firebase from "firebase"
 
 import EmptyListText from "./common/EmptyListText"
 import Flex from "./common/Flex"
 import SuggestionItem from "./SuggestionItem"
 
+import ProfileContainer from "../containers/ProfileContainer"
 import SuggestionsContainer from "../containers/SuggestionsContainer"
 
 class Suggestions extends Component {
@@ -16,10 +18,28 @@ class Suggestions extends Component {
     )
   }
 
+  _setLastReadSuggestion = (suggestionId, currentTripId) => {
+    firebase
+      .firestore()
+      .collection("Users")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("LastRead")
+      .doc(currentTripId)
+      .set({ suggestion: suggestionId }, { merge: true })
+  }
+
   render() {
     return (
-      <Subscribe to={[SuggestionsContainer]}>
-        {(suggestionsContainer) => {
+      <Subscribe to={[ProfileContainer, SuggestionsContainer]}>
+        {(profileContainer, suggestionsContainer) => {
+          const { suggestions } = suggestionsContainer.state
+          const { lastRead, profile } = profileContainer.state
+          if (suggestions.length) {
+            const lastSuggestion = suggestions[0]
+            if (lastSuggestion.id !== lastRead.suggestion) {
+              this._setLastReadSuggestion(lastSuggestion.id, profile.currentTrip)
+            }
+          }
           return (
             <Flex>
               <FlatList
