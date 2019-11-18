@@ -17,12 +17,14 @@ export default class ChatContainer extends Container {
   _getChat = async () => {
     try {
       const db = firebase.firestore()
-      const profile = await db.collection("Users").doc(`${firebase.auth().currentUser.uid}`).get()
-      const { currentTrip } = profile.data()
+      const { currentTrip } = (await db
+        .collection("Users")
+        .doc(firebase.auth().currentUser.uid)
+        .get())
+        .data()
       if (currentTrip) {
-        const suggestions = await db
-          .collection("Chats")
-          .doc(`${currentTrip}`)
+        db.collection("Chats")
+          .doc(currentTrip)
           .collection("chats")
           .onSnapshot(snapshot => {
             this.setState({

@@ -9,6 +9,7 @@ import ChatMessage from "./ChatMessage"
 import Flex from "./common/Flex"
 
 import ChatContainer from "../containers/ChatContainer"
+import ProfileContainer from "../containers/ProfileContainer"
 
 import { Colors, DEFAULT_PADDING } from "../constants/style"
 
@@ -41,15 +42,33 @@ class Chat extends Component {
     )
   }
 
+  _setLastReadMessage = (messageId, currentTripId) => {
+    firebase
+      .firestore()
+      .collection("Users")
+      .doc(firebase.auth().currentUser.uid)
+      .collection("LastRead")
+      .doc(currentTripId)
+      .set({ message: messageId }, { merge: true })
+  }
+
   render() {
     return (
-      <Subscribe to={[ChatContainer]}>
-        {(chatContainer) => {
+      <Subscribe to={[ChatContainer, ProfileContainer]}>
+        {(chatContainer, profileContainer) => {
+          const { chat } = chatContainer.state
+          const { lastRead, profile } = profileContainer.state
+          if (chat.length) {
+            const lastMessageInChat = chat[0]
+            if (lastMessageInChat.id !== lastRead.message) {
+              this._setLastReadMessage(lastMessageInChat.id, profile.currentTrip)
+            }
+          }
           return (
             <Flex>
               <FlatList
                 ref={ref => (this._chat = ref)}
-                data={chatContainer.state.chat}
+                data={chat}
                 inverted
                 keyExtractor={item => item.id}
                 renderItem={this._renderItem}

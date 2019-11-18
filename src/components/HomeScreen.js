@@ -7,6 +7,7 @@ import Flex from "./common/Flex"
 import CreateFirstTrip from "./CreateFirstTrip"
 import Polls from "./Polls"
 import Text from "./common/Text"
+import UnreadCount, { MESSAGE, POLL_SUGGESTION } from "./UnreadCount"
 
 import TripContainer from "../containers/TripContainer"
 import UsersTripsContainer from "../containers/UsersTripsContainer"
@@ -78,6 +79,7 @@ export default class HomeScreen extends Component {
                     <TouchableOpacity onPress={() => navigate(CHAT)} style={styles.tripItem}>
                       <Icon.Feather name="message-square" size={50} style={styles.icon} />
                       <Text>Chat</Text>
+                      <UnreadCount type={MESSAGE} />
                     </TouchableOpacity>
                   </View>
                   <View style={styles.tripItemRow}>
@@ -88,6 +90,7 @@ export default class HomeScreen extends Component {
                     <TouchableOpacity onPress={() => navigate(DETAILS)} style={styles.tripItem}>
                       <Icon.Feather name="edit" size={50} style={styles.icon} />
                       <Text>Polls & Suggestions</Text>
+                      <UnreadCount type={POLL_SUGGESTION} />
                     </TouchableOpacity>
                   </View>
                 </Flex>

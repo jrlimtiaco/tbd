@@ -6,6 +6,7 @@ import firebase from "firebase"
 
 import Flex from "./common/Flex"
 import Text from "./common/Text"
+import { InviteCountMenu } from "./InviteCount"
 
 import { CREATE_TRIP, INVITES, TRIPS } from '../constants/routes'
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
@@ -78,7 +79,7 @@ export default class LinksScreen extends React.Component {
 
   _renderItem = ({ item }) => {
     return (
-      <>
+      <View style={styles.item}>
         <TouchableOpacity
           onPress={this._getOnPress(item.id)}
           style={styles.listItem}
@@ -86,8 +87,8 @@ export default class LinksScreen extends React.Component {
           <Text>{item.label}</Text>
           <Icon.Feather name={item.icon} size={25} />
         </TouchableOpacity>
-        <View style={styles.border} />
-      </>
+        {item.id === INVITES_ID && <InviteCountMenu />}
+      </View>
     )
   }
 
@@ -106,12 +107,12 @@ export default class LinksScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  border: {
-    backgroundColor: Colors.lightGray,
-    height: 1,
-  },
   container: {
     paddingHorizontal: DEFAULT_PADDING,
+  },
+  item: {
+    borderColor: Colors.lightGray,
+    borderBottomWidth: 1,
   },
   listItem: {
     alignItems: "center",
