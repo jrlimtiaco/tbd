@@ -10,6 +10,7 @@ import Flex from "./common/Flex"
 
 import ChatContainer from "../containers/ChatContainer"
 import ProfileContainer from "../containers/ProfileContainer"
+import UsersContainer from "../containers/UsersContainer"
 
 import { Colors, DEFAULT_PADDING } from "../constants/style"
 
@@ -26,6 +27,7 @@ class Chat extends Component {
   }
 
   _chat
+  _chatMessages = []
 
   _onFocus = () => {
     if (this._chat) {
@@ -33,11 +35,11 @@ class Chat extends Component {
     }
   }
 
-  _renderItem = ({ item }) => {
+  _renderItem = ({ item, index }) => {
     return (
       <ChatMessage
-        isMyMessage={item.createdBy === firebase.auth().currentUser.uid}
         chatMessage={item}
+        showName={!this._chatMessages[index + 1] || this._chatMessages[index + 1].createdBy.id !== item.createdBy.id}
       />
     )
   }
@@ -54,9 +56,10 @@ class Chat extends Component {
 
   render() {
     return (
-      <Subscribe to={[ChatContainer, ProfileContainer]}>
-        {(chatContainer, profileContainer) => {
+      <Subscribe to={[ChatContainer, ProfileContainer, UsersContainer]}>
+        {(chatContainer, profileContainer, usersContainer) => {
           const { chat } = chatContainer.state
+          const { users } = usersContainer.state
           const { lastRead, profile } = profileContainer.state
           if (chat.length) {
             const lastMessageInChat = chat[0]
@@ -64,11 +67,13 @@ class Chat extends Component {
               this._setLastReadMessage(lastMessageInChat.id, profile.currentTrip)
             }
           }
+          const formattedChat = chat.map(m => ({ ...m, createdBy: users[m.createdBy] }))
+          this._chatMessages = formattedChat
           return (
             <Flex>
               <FlatList
                 ref={ref => (this._chat = ref)}
-                data={chat}
+                data={formattedChat}
                 inverted
                 keyExtractor={item => item.id}
                 renderItem={this._renderItem}
