@@ -9,6 +9,7 @@ import ProfileContainer from "./containers/ProfileContainer"
 import SuggestionsContainer from "./containers/SuggestionsContainer"
 import TripContainer from "./containers/TripContainer"
 import UsersTripsContainer from "./containers/UsersTripsContainer"
+import UsersContainer from "./containers/UsersContainer"
 
 import { Provider, Subscribe } from "unstated"
 
@@ -21,6 +22,7 @@ const CONTAINERS = [
   SuggestionsContainer,
   TripContainer,
   UsersTripsContainer,
+  UsersContainer,
 ]
 
 class AppContainers extends Component {
