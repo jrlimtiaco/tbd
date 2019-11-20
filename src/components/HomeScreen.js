@@ -39,35 +39,32 @@ export default class HomeScreen extends Component {
                 <Flex>
                   <View style={{ flex: 1 }} />
                   <View style={styles.tripDetailsContainer}>
-                    <TouchableOpacity
-                      onPress={() => navigate(NAME_TRIP)}
-                      style={styles.tripNameText}
-                    >
-                      <Text color={Colors.darkGray} size="xxxlarge" type={Fonts.CerealBlack}>
-                        {tripName || `Try "Trip to ${location}"`}
+                    <View style={{ flex: 1 }}>
+                      <TouchableOpacity onPress={() => navigate(NAME_TRIP)}>
+                        <Text color={Colors.darkGray} size="xxxlarge" type={Fonts.CerealBlack} style={styles.name}>
+                          {tripName || `Try "Trip to ${location}"`}
+                        </Text>
+                      </TouchableOpacity>
+                      <Text size="large" type={Fonts.CerealBold} style={styles.location}>
+                        {location}{"  "}
+                        <Text color={Colors.gray}>
+                          {displayDates({ startDate, endDate })}
+                        </Text>
                       </Text>
-                    </TouchableOpacity>
-                    <Text size="large" type={Fonts.CerealBold}>
-                      {location}{"  "}
-                      <Text color={Colors.gray}>
-                        {displayDates({ startDate, endDate })}
-                      </Text>
-                    </Text>
-                    <View style={styles.editAndTravelersContainer}>
                       <TouchableOpacity onPress={() => navigate(USER_LIST)}>
                         <Text size="small" type={Fonts.CerealBlack}>
                           {users.length} Travelers
                         </Text>
                       </TouchableOpacity>
-                      <TouchableOpacity
-                        onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate, users })}
-                        style={styles.editButton}
-                      >
-                        <Text size="small" type={Fonts.CerealBold}>
-                          Edit
-                        </Text>
-                      </TouchableOpacity>
                     </View>
+                    <TouchableOpacity
+                      onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate, users })}
+                      style={styles.editButton}
+                    >
+                      <Text size="small" type={Fonts.CerealBold}>
+                        Edit
+                      </Text>
+                    </TouchableOpacity>
                   </View>
                 </Flex>
                 <Flex style={styles.tripItemContainer}>
@@ -104,13 +101,8 @@ export default class HomeScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  editAndTravelersContainer: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 5,
-  },
   editButton: {
+    alignSelf: "flex-end",
     alignItems: "center",
     borderRadius: 20,
     borderWidth: 2,
@@ -121,7 +113,19 @@ const styles = StyleSheet.create({
   icon: {
     marginBottom: 10,
   },
+  location: {
+    paddingBottom: 10,
+    paddingRight: 5,
+  },
+  name: {
+    paddingBottom: 5,
+    paddingRight: 5,
+  },
   tripDetailsContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 5,
     marginHorizontal: 15,
   },
   tripItem: {
@@ -138,8 +142,5 @@ const styles = StyleSheet.create({
   tripItemRow: {
     flex: 1,
     flexDirection: "row",
-  },
-  tripNameText: {
-    paddingBottom: 5,
   },
 })
