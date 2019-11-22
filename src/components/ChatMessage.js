@@ -110,14 +110,11 @@ const styles = StyleSheet.create({
   },
   message: {
     alignSelf: "flex-start",
-    borderColor: Colors.darkGray,
-    borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
     marginBottom: DEFAULT_PADDING * 0.75,
     marginHorizontal: 10,
-    padding: DEFAULT_PADDING * 0.75,
   },
   name: {
+    fontFamily: Fonts.CerealExtraBold,
     marginLeft: 10,
     marginRight: 5,
   },
