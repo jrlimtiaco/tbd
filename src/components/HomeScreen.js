@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
 import Flex from "./common/Flex"
+import FlexImage from "./common/FlexImage"
 import CreateFirstTrip from "./CreateFirstTrip"
 import Polls from "./Polls"
 import Text from "./common/Text"
@@ -30,14 +31,22 @@ export default class HomeScreen extends Component {
         {(tripContainer, usersTripsContainer) => {
           const { navigation: { navigate } } = this.props
           const { usersTrips } = usersTripsContainer.state
-          const { trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
+          const { image, trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
           if (!usersTrips.length) {
             return <CreateFirstTrip />
           } else {
             return (
               <Flex>
+                <StatusBar translucent />
                 <Flex>
-                  <View style={{ flex: 1 }} />
+                  <View style={{ flex: 1 }}>
+                    {image && (
+                      <FlexImage
+                        source={{ uri: image }}
+                        style={{ width: "100%" }}
+                      />
+                    )}
+                  </View>
                   <View style={styles.tripDetailsContainer}>
                     <View style={{ flex: 1 }}>
                       <TouchableOpacity onPress={() => navigate(NAME_TRIP)}>
