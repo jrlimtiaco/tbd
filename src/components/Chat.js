@@ -77,6 +77,7 @@ class Chat extends Component {
                 inverted
                 keyExtractor={item => item.id}
                 renderItem={this._renderItem}
+                contentContainerStyle={styles.flatList}
                 showsVerticalScrollIndicator={false}
               />
               <ChatInput
@@ -93,6 +94,9 @@ class Chat extends Component {
 export default Chat
 
 const styles = StyleSheet.create({
+  flatList: {
+    paddingBottom: 10,
+  },
   headerIcon: {
     paddingHorizontal: DEFAULT_PADDING / 2,
   },

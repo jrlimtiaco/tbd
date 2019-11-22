@@ -11,14 +11,19 @@ import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 const ChatMessage = ({ chatMessage, showName }) => {
   const { createdAt, createdBy, image, message } = chatMessage
 
-  const header = useMemo(() => {
+  const avatar = useMemo(() => {
+    return (
+      <View style={styles.avatar}>
+        <Text size="small">
+          {`${createdBy.firstName.substring(0, 1)}${createdBy.lastName.substring(0, 1)}`}
+        </Text>
+      </View>
+    )
+  }, [createdBy])
+
+  const name = useMemo(() => {
     return (
       <View style={styles.row}>
-        <View style={styles.avatar}>
-          <Text size="small">
-            {`${createdBy.firstName.substring(0, 1)}${createdBy.lastName.substring(0, 1)}`}
-          </Text>
-        </View>
         <Text style={styles.name}>
           {createdBy.firstName}
         </Text>
@@ -31,39 +36,48 @@ const ChatMessage = ({ chatMessage, showName }) => {
 
   if (!image) {
     return (
-      <>
+      <View style={styles.wrapper}>
+        {showName && avatar}
         <View style={styles.container}>
-          <Text type={Fonts.CerealBook}>
-            {message}
-          </Text>
+          {showName && name}
+          <View style={[styles.message, !showName && styles.extraSpacing]}>
+            <Text type={Fonts.CerealBook}>
+              {message}
+            </Text>
+          </View>
         </View>
-        {showName && header}
-      </>
+      </View>
     )
   } else if (!message) {
     return (
-      <>
-        <FlexImage
-          source={{ uri: image }}
-          style={styles.image}
-        />
-        {showName && header}
-      </>
+      <View style={styles.wrapper}>
+        {showName && avatar}
+        <View style={styles.container}>
+          {showName && name}
+          <FlexImage
+            source={{ uri: image }}
+            style={[styles.image, !showName && styles.extraSpacing]}
+          />
+        </View>
+      </View>
     )
   } else {
     return (
-      <>
+      <View style={styles.wrapper}>
+        {showName && avatar}
         <View style={styles.container}>
-          <Text type={Fonts.CerealBook}>
-            {message}
-          </Text>
+          {showName && name}
+          <View style={[styles.message, !showName && styles.extraSpacing]}>
+            <Text type={Fonts.CerealBook}>
+              {message}
+            </Text>
+          </View>
+          <FlexImage
+            source={{ uri: image }}
+            style={[styles.image, !showName && styles.extraSpacing]}
+          />
         </View>
-        <FlexImage
-          source={{ uri: image }}
-          style={styles.image}
-        />
-        {showName && header}
-      </>
+      </View>
     )
   }
 }
@@ -77,32 +91,41 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 20,
     justifyContent: "center",
+    marginLeft: 10,
     height: 40,
     width: 40,
   },
   container: {
-    alignSelf: "flex-start",
-    borderColor: Colors.darkGray,
-    borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
-    marginBottom: DEFAULT_PADDING * 0.75,
-    marginHorizontal: DEFAULT_PADDING,
-    padding: DEFAULT_PADDING * 0.75,
+    flex: 1,
+  },
+  extraSpacing: {
+    marginLeft: 60,
   },
   image: {
     alignSelf: "flex-start",
     borderRadius: 6,
     marginBottom: DEFAULT_PADDING,
-    marginHorizontal: DEFAULT_PADDING,
-    width: DEVICE_WIDTH * (2/3),
+    marginLeft: 10,
+    width: DEVICE_WIDTH * 0.6,
+  },
+  message: {
+    alignSelf: "flex-start",
+    borderColor: Colors.darkGray,
+    borderRadius: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    marginBottom: DEFAULT_PADDING * 0.75,
+    marginHorizontal: 10,
+    padding: DEFAULT_PADDING * 0.75,
   },
   name: {
-    marginHorizontal: 5,
+    marginLeft: 10,
+    marginRight: 5,
   },
   row: {
     alignItems: "center",
     flexDirection: "row",
-    marginBottom: DEFAULT_PADDING / 2,
-    marginHorizontal: DEFAULT_PADDING,
+  },
+  wrapper: {
+    flexDirection: "row",
   },
 })
