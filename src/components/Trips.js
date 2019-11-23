@@ -5,7 +5,7 @@ import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 import moment from "moment"
 
-import EmptyListText from "./common/EmptyListText"
+import EmptyListCard from "./common/EmptyListCard"
 import Flex from "./common/Flex"
 import Loader from "./common/Loader"
 import Text from "./common/Text"
@@ -82,9 +82,10 @@ const Trips = ({ currentTrip, refresh, trips }) => {
           keyExtractor={item => item.id}
           renderItem={renderItem}
           ListEmptyComponent={(
-            <EmptyListText>
-              No trips
-            </EmptyListText>
+            <EmptyListCard
+              title="No Trips"
+              description="All your trips will appear here."
+            />
           )}
         />
       )}

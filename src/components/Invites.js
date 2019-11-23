@@ -4,7 +4,7 @@ import { Subscribe } from "unstated"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 
-import EmptyListText from "./common/EmptyListText"
+import EmptyListCard from "./common/EmptyListCard"
 import Flex from "./common/Flex"
 import Text from "./common/Text"
 
@@ -104,9 +104,10 @@ const Invites = ({ inviteList, navigation, refresh }) => {
         keyExtractor={item => item.id}
         renderItem={renderItem}
         ListEmptyComponent={(
-          <EmptyListText>
-            No pending invites
-          </EmptyListText>
+          <EmptyListCard
+            title="No Invites"
+            description="Invitations for trips will appear here."
+          />
         )}
       />
     </Flex>

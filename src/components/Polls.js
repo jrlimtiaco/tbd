@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { FlatList } from "react-native"
 import { Subscribe } from "unstated"
 
-import EmptyListText from "./common/EmptyListText"
+import EmptyListCard from "./common/EmptyListCard"
 import Flex from "./common/Flex"
 import PollItem from "./PollItem"
 
@@ -28,9 +28,10 @@ class Polls extends Component {
                 renderItem={this._renderItem}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={(
-                  <EmptyListText>
-                    Create polls for your trip
-                  </EmptyListText>
+                  <EmptyListCard
+                    title="No Polls"
+                    description="Create polls here to make the most of your trip."
+                  />
                 )}
               />
             </Flex>

@@ -6,7 +6,7 @@ import firebase from "firebase"
 import * as Icon from "@expo/vector-icons"
 import AddTripItem from "./AddTripItem"
 import Flex from "./common/Flex"
-import EmptyListText from "./common/EmptyListText"
+import EmptyListCard from "./common/EmptyListCard"
 import Text from "./common/Text"
 
 import ProfileContainer from "../containers/ProfileContainer"
@@ -81,9 +81,10 @@ class Checklist extends Component {
                   showsVerticalScrollIndicator={false}
                   renderItem={this._renderItem}
                   ListEmptyComponent={(
-                    <EmptyListText>
-                      Create a list of items for your trip
-                    </EmptyListText>
+                    <EmptyListCard
+                      title="No Items"
+                      description="Create a list of items everyone should bring."
+                    />
                   )}
                 />
               </View>

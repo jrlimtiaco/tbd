@@ -3,7 +3,7 @@ import { FlatList } from "react-native"
 import { Subscribe } from "unstated"
 import firebase from "firebase"
 
-import EmptyListText from "./common/EmptyListText"
+import EmptyListCard from "./common/EmptyListCard"
 import Flex from "./common/Flex"
 import SuggestionItem from "./SuggestionItem"
 
@@ -48,9 +48,10 @@ class Suggestions extends Component {
                 renderItem={this._renderItem}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={(
-                  <EmptyListText>
-                    Create suggestions for your trip
-                  </EmptyListText>
+                  <EmptyListCard
+                    title="No Suggestions"
+                    description="Add suggestions to help make your trip better."
+                  />
                 )}
               />
             </Flex>
