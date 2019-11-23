@@ -7,7 +7,7 @@ import firebase from "firebase"
 import moment from "moment"
 
 import Flex from "./common/Flex"
-import EmptyListText from "./common/EmptyListText"
+import EmptyListCard from "./common/EmptyListCard"
 import Headline from "./common/Headline"
 import Text from "./common/Text"
 
@@ -157,9 +157,10 @@ class Itinerary extends Component {
                     renderItem={this._renderEvent}
                     showsVerticalScrollIndicator={false}
                     ListEmptyComponent={(
-                      <EmptyListText>
-                        No events for this date
-                      </EmptyListText>
+                      <EmptyListCard
+                        title="No Plans"
+                        description="Add some fun things to do on this day."
+                      />
                     )}
                   />
                   {!!selectedDayEvents.length && (
