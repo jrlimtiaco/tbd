@@ -5,6 +5,7 @@ import firebase from "firebase"
 import uuidV4 from "uuid/v4"
 
 import ImageButton from "./ImageButton"
+import Text from "./common/Text"
 
 import { DEVICE_WIDTH } from "../constants/dimensions"
 import { Colors, DEFAULT_PADDING } from "../constants/style"
@@ -73,7 +74,7 @@ class ChatInput extends Component {
         }
         await db
           .collection("Chats")
-          .doc(`${currentTrip}`)
+          .doc(currentTrip)
           .collection("chats")
           .doc(uuidV4())
           .set({
@@ -92,6 +93,7 @@ class ChatInput extends Component {
   render() {
     const { onFocus } = this.props
     const { image, keyboardHeight, text } = this.state
+    const disabled = !image && !text
     return (
       <View style={[styles.container, isIOS && { marginBottom: keyboardHeight }]}>
         {image && (
@@ -115,6 +117,7 @@ class ChatInput extends Component {
             onSubmitEditing={this._onPress}
             placeholder={"Type a message here..."}
             returnKeyType="send"
+            style={styles.input}
             underlineColorAndroid="transparent"
             value={text}
           />
@@ -123,8 +126,14 @@ class ChatInput extends Component {
           <ImageButton style={styles.imageIcon} setImage={this._setImage}>
             <Icon.AntDesign color={Colors.darkGray} name="picture" size={25} />
           </ImageButton>
-          <TouchableOpacity onPress={this._onPress} style={styles.sendIcon}>
-            <Icon.Ionicons color={Colors.darkGray} name="md-send" size={25} />
+          <TouchableOpacity
+            disabled={disabled}
+            onPress={this._onPress}
+            style={styles.sendIcon}
+          >
+            <Text color={disabled ? Colors.lightGray : Colors.darkGray}>
+              Send
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -138,7 +147,6 @@ const styles = StyleSheet.create({
   container: {
     borderColor: Colors.lightGray,
     borderTopWidth: StyleSheet.hairlineWidth,
-    paddingVertical: DEFAULT_PADDING,
   },
   iconRow: {
     alignItems: "center",
@@ -150,17 +158,19 @@ const styles = StyleSheet.create({
     width: DEVICE_WIDTH / 2,
   },
   imageContainer: {
-    marginBottom: DEFAULT_PADDING,
+    marginTop: DEFAULT_PADDING,
     marginHorizontal: DEFAULT_PADDING,
     width: DEVICE_WIDTH / 2,
   },
   imageIcon: {
+    paddingBottom: DEFAULT_PADDING / 2,
     paddingHorizontal: DEFAULT_PADDING,
+  },
+  input: {
+    padding: DEFAULT_PADDING,
   },
   inputContainer: {
     alignSelf: "stretch",
-    paddingBottom: DEFAULT_PADDING,
-    paddingHorizontal: DEFAULT_PADDING,
   },
   removeImage: {
     right: 2,
@@ -169,6 +179,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   sendIcon: {
+    paddingBottom: DEFAULT_PADDING / 2,
     paddingHorizontal: DEFAULT_PADDING,
   },
 })

@@ -4,7 +4,7 @@ import { Image, StyleSheet } from "react-native"
 import { DEVICE_WIDTH } from "../../constants/dimensions"
 import { Colors, DEFAULT_PADDING, Fonts } from "../../constants/style"
 
-const FlexImage = ({ source, style }) => {
+const FlexImage = ({ resizeMode, source, style }) => {
   const [aspectRatio, setAspectRatio] = useState(1)
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const FlexImage = ({ source, style }) => {
 
   return (
     <Image
-      resizeMode="contain"
+      resizeMode={resizeMode || "contain"}
       source={source}
       style={[styles.image, { aspectRatio }, style]}
     />
