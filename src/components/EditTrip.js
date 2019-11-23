@@ -31,7 +31,7 @@ class EditTrip extends Component {
     endDate: this.props.navigation.getParam("endDate", null),
     location: this.props.navigation.getParam("location", null),
     startDate: this.props.navigation.getParam("startDate", null),
-    selectedUsers: [],
+    selectedUsers: this.props.navigation.getParam("users", []),
     users: this.props.navigation.getParam("users", []),
   }
 
@@ -63,7 +63,6 @@ class EditTrip extends Component {
             .delete()
         }))
       }
-
       await firebase.firestore()
         .collection("Trips")
         .doc(currentTrip)
@@ -157,7 +156,7 @@ class EditTrip extends Component {
           Who
         </Text>
         <Text size="large" type={Fonts.CerealBold}>
-          {`${selectedUsers.length || users.length} Travelers`}
+          {selectedUsers.length} Travelers
         </Text>
       </TouchableOpacity>
       </View>

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StatusBar, StyleSheet, TouchableOpacity, View } from 'react-native'
 
 import * as Icon from "@expo/vector-icons"
 import Button from "./common/Button"
 import Flex from "./common/Flex"
+import FlexImage from "./common/FlexImage"
 import CreateFirstTrip from "./CreateFirstTrip"
 import Polls from "./Polls"
 import Text from "./common/Text"
@@ -30,24 +31,34 @@ export default class HomeScreen extends Component {
         {(tripContainer, usersTripsContainer) => {
           const { navigation: { navigate } } = this.props
           const { usersTrips } = usersTripsContainer.state
-          const { trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
+          const { image, trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
           if (!usersTrips.length) {
             return <CreateFirstTrip />
           } else {
             return (
               <Flex>
+                <StatusBar translucent />
                 <Flex>
-                  <View style={{ flex: 1 }} />
+                  <Flex style={styles.image}>
+                    {image && <FlexImage source={{ uri: image }} />}
+                  </Flex>
                   <View style={styles.tripDetailsContainer}>
-                    <View style={{ flex: 1 }}>
+                    <Flex>
                       <TouchableOpacity onPress={() => navigate(NAME_TRIP)}>
-                        <Text color={Colors.darkGray} size="xxxlarge" type={Fonts.CerealBlack} style={styles.name}>
+                        <Text
+                          ellipsizeMode="tail"
+                          numberOfLines={1}
+                          color={Colors.darkGray}
+                          size="xxlarge"
+                          type={Fonts.CerealBlack}
+                          style={styles.name}
+                        >
                           {tripName || `Try "Trip to ${location}"`}
                         </Text>
                       </TouchableOpacity>
-                      <Text size="large" type={Fonts.CerealBold} style={styles.location}>
+                      <Text type={Fonts.CerealBold} style={styles.location}>
                         {location}{"  "}
-                        <Text color={Colors.gray}>
+                        <Text color={Colors.gray} size="small">
                           {displayDates({ startDate, endDate })}
                         </Text>
                       </Text>
@@ -56,7 +67,7 @@ export default class HomeScreen extends Component {
                           {users.length} Travelers
                         </Text>
                       </TouchableOpacity>
-                    </View>
+                    </Flex>
                     <TouchableOpacity
                       onPress={() => navigate(EDIT_TRIP, { endDate, location, startDate, users })}
                       style={styles.editButton}
@@ -80,14 +91,14 @@ export default class HomeScreen extends Component {
                     </TouchableOpacity>
                   </View>
                   <View style={styles.tripItemRow}>
-                    <TouchableOpacity onPress={() => navigate(CHECKLIST)} style={styles.tripItem}>
-                      <Icon.Feather name="clipboard" size={50} style={styles.icon} />
-                      <Text>Checklist</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigate(DETAILS)} style={styles.tripItem}>
                       <Icon.Feather name="edit" size={50} style={styles.icon} />
                       <Text>Polls & Suggestions</Text>
                       <UnreadCount type={POLL_SUGGESTION} />
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigate(CHECKLIST)} style={styles.tripItem}>
+                      <Icon.Feather name="clipboard" size={50} style={styles.icon} />
+                      <Text>Checklist</Text>
                     </TouchableOpacity>
                   </View>
                 </Flex>
@@ -113,6 +124,9 @@ const styles = StyleSheet.create({
   icon: {
     marginBottom: 10,
   },
+  image: {
+    overflow: "hidden",
+  },
   location: {
     paddingBottom: 10,
     paddingRight: 5,
@@ -126,6 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginBottom: 5,
+    marginTop: 10,
     marginHorizontal: 15,
   },
   tripItem: {

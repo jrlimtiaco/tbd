@@ -1,8 +1,16 @@
 import firebase from "firebase"
 import { Container } from "unstated"
+import config from "../config"
+
+const options = {
+  headers: {
+    'Authorization': config.apiKey
+  }
+}
 
 const initialState = {
   pending: true,
+  image: null,
   trip: {},
 }
 
@@ -16,16 +24,33 @@ export default class TripContainer extends Container {
   _getTrip = async () => {
     try {
       const db = firebase.firestore()
-      const profile = await db.collection("Users").doc(`${firebase.auth().currentUser.uid}`).get()
-      const { currentTrip } = profile.data()
+      const { currentTrip } = (await db
+        .collection("Users")
+        .doc(firebase.auth().currentUser.uid)
+        .get())
+        .data()
       if (currentTrip) {
-        const trip = await db
+        await db
           .collection("Trips")
-          .doc(`${currentTrip}`)
-          .onSnapshot(snapshot => this.setState({
-            pending: false,
-            trip: snapshot.data(),
-          }))
+          .doc(currentTrip)
+          .onSnapshot(async snapshot => {
+            const trip = snapshot.data()
+            if (trip.location !== this.state.trip.location) {
+              const res = await fetch(
+                `https://api.pexels.com/v1/search?query=${trip.location}&per_page=15&page=1`,
+                options
+              )
+              const { photos } = await res.json()
+              const image = photos && photos[0]
+              this.setState({
+                trip,
+                pending: false,
+                image: image && image.src && image.src.medium,
+              })
+            } else {
+              this.setState({ pending: false, trip })
+            }
+          })
       } else {
         this.setState({ pending: false })
       }
