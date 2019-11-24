@@ -1,10 +1,13 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 
-import { Colors, Fonts } from '../../constants/style'
+import { DEVICE_WIDTH } from '../../constants/dimensions'
+import { Colors, DEFAULT_PADDING, Fonts } from '../../constants/style'
 import { isIOS } from '../../utils/device'
 
 import Text from './Text'
+
+const CARD_PADDING = DEVICE_WIDTH * 0.05
 
 const EmptyListCard = ({ description, title }) => (
   <View
@@ -26,32 +29,33 @@ const EmptyListCard = ({ description, title }) => (
 
 const styles = StyleSheet.create({
   android: {
-    elevation: 5
+    elevation: 5,
   },
   container: {
+    borderRadius: 6,
     flexGrow: 1,
-    margin: 18,
-    borderRadius: 6
+    margin: CARD_PADDING,
+    marginTop: CARD_PADDING + DEFAULT_PADDING,
   },
   description: {
+    marginBottom: CARD_PADDING,
     textAlign: 'center',
-    marginBottom: 18,
     width: "75%",
   },
   ios: {
     shadowColor: Colors.black,
     shadowOffset: {
+      height: 2,
       width: 0,
-      height: 2
     },
     shadowOpacity: 0.2,
-    shadowRadius: 9
+    shadowRadius: 4,
   },
   textContainer: {
+    alignItems: 'center',
     backgroundColor: Colors.white,
     borderRadius: 6,
-    padding: 18,
-    alignItems: 'center'
+    padding: CARD_PADDING,
   },
   title: {
     color: Colors.darkGray,

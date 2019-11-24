@@ -50,7 +50,7 @@ class Suggestions extends Component {
                 ListEmptyComponent={(
                   <EmptyListCard
                     title="No Suggestions"
-                    description="Add suggestions to help make your trip better."
+                    description="Make your trip better with suggestions"
                   />
                 )}
               />

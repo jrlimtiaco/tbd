@@ -84,7 +84,7 @@ const Trips = ({ currentTrip, refresh, trips }) => {
           ListEmptyComponent={(
             <EmptyListCard
               title="No Trips"
-              description="All your trips will appear here."
+              description="All your trips will appear here"
             />
           )}
         />

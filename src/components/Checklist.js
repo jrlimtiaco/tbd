@@ -83,7 +83,7 @@ class Checklist extends Component {
                   ListEmptyComponent={(
                     <EmptyListCard
                       title="No Items"
-                      description="Create a list of items everyone should bring."
+                      description="Make a list of items everyone should bring"
                     />
                   )}
                 />

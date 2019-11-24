@@ -106,7 +106,7 @@ const Invites = ({ inviteList, navigation, refresh }) => {
         ListEmptyComponent={(
           <EmptyListCard
             title="No Invites"
-            description="Invitations for trips will appear here."
+            description="All your invitations will appear here"
           />
         )}
       />
