@@ -30,7 +30,7 @@ class Polls extends Component {
                 ListEmptyComponent={(
                   <EmptyListCard
                     title="No Polls"
-                    description="Create polls here to make the most of your trip."
+                    description="Make your trip better with polls"
                   />
                 )}
               />

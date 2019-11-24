@@ -159,7 +159,7 @@ class Itinerary extends Component {
                     ListEmptyComponent={(
                       <EmptyListCard
                         title="No Plans"
-                        description="Add some fun things to do on this day."
+                        description="Make some plans for this date"
                       />
                     )}
                   />
