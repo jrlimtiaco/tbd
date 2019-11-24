@@ -16,10 +16,12 @@ const EmptyListCard = ({ description, title }) => (
       isIOS ? styles.ios : styles.android,
     ]}
   >
-    <View style={styles.textContainer}>
-      <Text style={styles.title} size="xxlarge">
+    <View style={styles.titleContainer}>
+      <Text align="center" style={styles.title} size="xxlarge">
         {title}
       </Text>
+    </View>
+    <View style={styles.descriptionContainer}>
       <Text style={styles.description}>
         {description}
       </Text>
@@ -42,6 +44,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: "75%",
   },
+  descriptionContainer: {
+    alignItems: 'center',
+    backgroundColor: Colors.white,
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
+    padding: CARD_PADDING,
+  },
   ios: {
     shadowColor: Colors.black,
     shadowOffset: {
@@ -51,16 +60,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
   },
-  textContainer: {
-    alignItems: 'center',
-    backgroundColor: Colors.white,
-    borderRadius: 6,
-    padding: CARD_PADDING,
-  },
   title: {
     color: Colors.darkGray,
     fontFamily: Fonts.CerealExtraBold,
-    marginBottom: 6,
+  },
+  titleContainer: {
+    backgroundColor: Colors.lightGray,
+    borderTopLeftRadius: 6,
+    borderTopRightRadius: 6,
+    paddingVertical: DEFAULT_PADDING / 2,
   },
 })
 
