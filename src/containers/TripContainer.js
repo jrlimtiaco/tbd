@@ -45,7 +45,7 @@ export default class TripContainer extends Container {
               this.setState({
                 trip,
                 pending: false,
-                image: image && image.src && image.src.medium,
+                image: image && image.src && image.src.landscape,
               })
             } else {
               this.setState({ pending: false, trip })

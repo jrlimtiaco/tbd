@@ -16,6 +16,7 @@ import PollsContainer from "../containers/PollsContainer"
 import ProfileContainer from "../containers/ProfileContainer"
 import SuggestionsContainer from "../containers/SuggestionsContainer"
 import TripContainer from "../containers/TripContainer"
+import UsersContainer from "../containers/UsersContainer"
 import UsersTripsContainer from "../containers/UsersTripsContainer"
 
 import { displayDates } from "../utils/dates"
@@ -103,6 +104,7 @@ const TripsConainer = () => {
         ProfileContainer,
         SuggestionsContainer,
         TripContainer,
+        UsersContainer,
         UsersTripsContainer
       ]}
     >
@@ -112,6 +114,7 @@ const TripsConainer = () => {
         profileContainer,
         suggestionsContainer,
         tripContainer,
+        usersContainer,
         usersTripsContainer
       ) => (
         <Trips
@@ -124,6 +127,7 @@ const TripsConainer = () => {
             profileContainer._refreshProfile()
             suggestionsContainer._refreshSuggestions()
             tripContainer._refreshTrips()
+            usersContainer._refreshUsers()
           }}
         />
       )}

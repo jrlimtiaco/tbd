@@ -8,7 +8,7 @@ import Text from "./common/Text"
 import { DEVICE_WIDTH } from "../constants/dimensions"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
-const ChatMessage = ({ chatMessage, showName }) => {
+const ChatMessage = ({ chatMessage, isFirstMessage }) => {
   const { createdAt, createdBy, image, message } = chatMessage
 
   const avatar = useMemo(() => {
@@ -36,11 +36,11 @@ const ChatMessage = ({ chatMessage, showName }) => {
 
   if (!image) {
     return (
-      <View style={styles.wrapper}>
-        {showName && avatar}
+      <View style={[styles.wrapper, isFirstMessage && styles.firstMessage]}>
+        {isFirstMessage && avatar}
         <View style={styles.container}>
-          {showName && name}
-          <View style={[styles.message, !showName && styles.extraSpacing]}>
+          {isFirstMessage && name}
+          <View style={[styles.message, !isFirstMessage && styles.extraSpacing]}>
             <Text type={Fonts.CerealBook}>
               {message}
             </Text>
@@ -50,31 +50,31 @@ const ChatMessage = ({ chatMessage, showName }) => {
     )
   } else if (!message) {
     return (
-      <View style={styles.wrapper}>
-        {showName && avatar}
+      <View style={[styles.wrapper, isFirstMessage && styles.firstMessage]}>
+        {isFirstMessage && avatar}
         <View style={styles.container}>
-          {showName && name}
+          {isFirstMessage && name}
           <FlexImage
             source={{ uri: image }}
-            style={[styles.image, !showName && styles.extraSpacing]}
+            style={[styles.image, !isFirstMessage && styles.extraSpacing]}
           />
         </View>
       </View>
     )
   } else {
     return (
-      <View style={styles.wrapper}>
-        {showName && avatar}
+      <View style={[styles.wrapper, isFirstMessage && styles.firstMessage]}>
+        {isFirstMessage && avatar}
         <View style={styles.container}>
-          {showName && name}
-          <View style={[styles.message, !showName && styles.extraSpacing]}>
+          {isFirstMessage && name}
+          <View style={[styles.message, !isFirstMessage && styles.extraSpacing]}>
             <Text type={Fonts.CerealBook}>
               {message}
             </Text>
           </View>
           <FlexImage
             source={{ uri: image }}
-            style={[styles.image, !showName && styles.extraSpacing]}
+            style={[styles.image, !isFirstMessage && styles.extraSpacing]}
           />
         </View>
       </View>
@@ -100,6 +100,9 @@ const styles = StyleSheet.create({
   },
   extraSpacing: {
     marginLeft: 60,
+  },
+  firstMessage: {
+    marginTop: DEFAULT_PADDING * 0.75,
   },
   image: {
     alignSelf: "flex-start",

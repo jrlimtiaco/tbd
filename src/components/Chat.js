@@ -39,7 +39,7 @@ class Chat extends Component {
     return (
       <ChatMessage
         chatMessage={item}
-        showName={!this._chatMessages[index + 1] || this._chatMessages[index + 1].createdBy.id !== item.createdBy.id}
+        isFirstMessage={!this._chatMessages[index + 1] || this._chatMessages[index + 1].createdBy.id !== item.createdBy.id}
       />
     )
   }

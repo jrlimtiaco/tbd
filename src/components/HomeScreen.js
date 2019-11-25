@@ -39,8 +39,8 @@ export default class HomeScreen extends Component {
               <Flex>
                 <StatusBar translucent />
                 <Flex>
-                  <Flex style={styles.image}>
-                    {image && <FlexImage source={{ uri: image }} />}
+                  <Flex style={styles.imageContainer}>
+                    {image && <FlexImage source={{ uri: image }} style={styles.image} />}
                   </Flex>
                   <View style={styles.tripDetailsContainer}>
                     <Flex>
@@ -125,6 +125,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
+    height: "100%",
+    width: "auto",
+  },
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
     overflow: "hidden",
   },
   location: {

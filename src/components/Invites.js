@@ -15,6 +15,7 @@ import PollsContainer from "../containers/PollsContainer"
 import ProfileContainer from "../containers/ProfileContainer"
 import SuggestionsContainer from "../containers/SuggestionsContainer"
 import TripContainer from "../containers/TripContainer"
+import UsersContainer from "../containers/UsersContainer"
 
 import { Colors, DEFAULT_PADDING } from "../constants/style"
 import { displayDates } from "../utils/dates"
@@ -124,7 +125,8 @@ const InvitesList = ({ navigation }) => {
         PollsContainer,
         ProfileContainer,
         SuggestionsContainer,
-        TripContainer
+        TripContainer,
+        UsersContainer
       ]}
     >
       {(
@@ -134,7 +136,8 @@ const InvitesList = ({ navigation }) => {
         pollsContainer,
         profileContainer,
         suggestionsContainer,
-        tripContainer
+        tripContainer,
+        usersContainer
       ) => (
         <Invites
           inviteList={invitesContainer.state.invites}
@@ -146,6 +149,7 @@ const InvitesList = ({ navigation }) => {
             profileContainer._refreshProfile()
             suggestionsContainer._refreshSuggestions()
             tripContainer._refreshTrips()
+            usersContainer._refreshUsers()
           }}
         />
       )}
