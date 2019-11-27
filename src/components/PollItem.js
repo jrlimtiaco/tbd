@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   },
   pollContainer: {
     borderColor: Colors.lightGray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     paddingVertical: 10,
   },
   question: {

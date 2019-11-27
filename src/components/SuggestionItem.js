@@ -91,7 +91,7 @@ export default SuggestionItem
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     borderColor: Colors.lightGray,
     flexDirection: "row",
     paddingVertical: DEFAULT_PADDING,

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.CerealExtraBold,
   },
   titleContainer: {
-    backgroundColor: Colors.lightGray,
+    backgroundColor: Colors.lightWhiteGray,
     borderTopLeftRadius: 6,
     borderTopRightRadius: 6,
     paddingVertical: DEFAULT_PADDING / 2,

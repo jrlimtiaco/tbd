@@ -97,7 +97,6 @@ class AddPoll extends Component {
           return (
             <Flex>
               <Flex style={styles.container}>
-                <Headline>Create a poll for your trip</Headline>
                 <ScrollView
                   ref={ref => (this._scroll = ref)}
                   keyboardDismissMode="on-drag"
@@ -105,6 +104,7 @@ class AddPoll extends Component {
                   onContentSizeChange={() => this._scroll && this._scroll.scrollToEnd()}
                   showsVerticalScrollIndicator={false}
                 >
+                  <Headline>Make a poll for your trip</Headline>
                   <Text>QUESTION</Text>
                   <Input
                     ref={ref => (this._question = ref)}
