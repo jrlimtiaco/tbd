@@ -84,6 +84,7 @@ const Search = ({ navigation, users }) => {
           keyboardDismissMode="on-drag"
           keyExtractor={item => item.id}
           renderItem={renderItem}
+          showsVerticalScrollIndicator={false}
           data={search
             ? results.filter(result =>
                 result.email.toLowerCase().includes(search.toLowerCase()) ||
@@ -149,7 +150,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     borderColor: Colors.lightGray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   itemRow: {
     alignItems: "center",

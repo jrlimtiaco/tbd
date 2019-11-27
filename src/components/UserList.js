@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   item: {
     alignItems: "center",
     borderColor: Colors.lightGray,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     flexDirection: "row",
     paddingVertical: DEFAULT_PADDING,
   },

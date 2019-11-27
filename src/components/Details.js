@@ -65,7 +65,7 @@ class Details extends Component {
         onPress={() => this.setState({ tab: item.route })}
         style={[
           styles.tabItem,
-          this.state.tab === item.route && { backgroundColor: Colors.lightWhiteGray }
+          this.state.tab === item.route && { backgroundColor: "rgba(201,201,201,0.5)" }
         ]}
       >
         <Icon.Feather name={item.icon} size={15} />

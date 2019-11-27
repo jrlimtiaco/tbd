@@ -180,7 +180,7 @@ export default Itinerary
 
 const styles = StyleSheet.create({
   border: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     borderColor: Colors.gray,
     paddingBottom: DEFAULT_PADDING * 1.25,
   },

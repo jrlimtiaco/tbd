@@ -19,8 +19,8 @@ const TRIPS_ID = "TRIPS_ID"
 const accountOptions = [
   {
     id: CREATE_TRIP_ID,
-    icon: 'plus-circle',
-    label: "New Trip",
+    icon: 'plus',
+    label: "Create Trip",
   },
   {
     id: INVITES_ID,

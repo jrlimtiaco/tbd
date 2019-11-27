@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
   },
   item: {
     alignItems: "center",
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
     borderColor: Colors.lightGray,
     flexDirection: "row",
     justifyContent: "space-between",
