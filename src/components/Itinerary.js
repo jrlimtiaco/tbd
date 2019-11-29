@@ -97,6 +97,7 @@ class Itinerary extends Component {
         onPress={() => {
           LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
           this.setState({ index: i })
+          this._dates.scrollToItem({ item })
         }}
       >
         <Text
@@ -143,11 +144,15 @@ class Itinerary extends Component {
                   ]}
                 >
                   <FlatList
+                    ref={ref => (this._dates = ref)}
                     horizontal
                     data={dates}
                     keyExtractor={(item, index) => index.toString()}
                     renderItem={this._renderDates}
                     showsHorizontalScrollIndicator={false}
+                    getItemLayout={(data, index) => (
+                      { length: ITEM_SIZE + 8, offset: (ITEM_SIZE + 8) * index, index }
+                    )}
                   />
                 </View>
                 <Flex>
@@ -242,7 +247,7 @@ const styles = StyleSheet.create({
     left: 95,
     position: "absolute",
     top: 0,
-    width: StyleSheet.hairlineWidth,
+    width: 1,
     zIndex: -10,
   },
   selected: {

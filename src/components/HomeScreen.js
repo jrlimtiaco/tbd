@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
   },
   tripItem: {
     alignItems: "center",
-    backgroundColor: "#eee",
+    backgroundColor: Colors.lightWhiteGray,
     borderRadius: 3,
     flex: 1,
     justifyContent: "center",
