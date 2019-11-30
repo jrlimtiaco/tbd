@@ -61,14 +61,14 @@ export default class HomeScreen extends Component {
                           {tripName || `Try "Trip to ${location}"`}
                         </Text>
                       </TouchableOpacity>
-                      <Text type={Fonts.CerealBold} style={styles.location}>
+                      <Text style={styles.location}>
                         {location}{"  "}
                         <Text color={Colors.gray} size="small">
                           {displayDates({ startDate, endDate })}
                         </Text>
                       </Text>
                       <TouchableOpacity onPress={() => navigate(USER_LIST)}>
-                        <Text size="small" type={Fonts.CerealBlack}>
+                        <Text>
                           {users.length} Travelers
                         </Text>
                       </TouchableOpacity>
