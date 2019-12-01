@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { Subscribe } from "unstated"
 import { range } from "lodash"
 import firebase from "firebase"
@@ -97,11 +98,11 @@ class AddPoll extends Component {
           return (
             <Flex>
               <Flex style={styles.container}>
-                <ScrollView
-                  ref={ref => (this._scroll = ref)}
+                <KeyboardAwareScrollView
+                  enableOnAndroid
+                  enableResetScrollToCoords={false}
                   keyboardDismissMode="on-drag"
                   keyboardShouldPersistTaps="always"
-                  onContentSizeChange={() => this._scroll && this._scroll.scrollToEnd()}
                   showsVerticalScrollIndicator={false}
                 >
                   <Headline>Make a poll for your trip</Headline>
@@ -168,7 +169,7 @@ class AddPoll extends Component {
                   >
                     <Text>Create poll</Text>
                   </Button>
-                </ScrollView>
+                </KeyboardAwareScrollView>
               </Flex>
             </Flex>
           )

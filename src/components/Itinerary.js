@@ -164,7 +164,7 @@ class Itinerary extends Component {
                     ListEmptyComponent={(
                       <EmptyListCard
                         title="No Plans"
-                        description="Make some plans for this date"
+                        description={`Make some plans for ${moment(this._selectedDate).format("MMMM Do YYYY")}`}
                       />
                     )}
                   />
