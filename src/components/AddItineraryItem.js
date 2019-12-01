@@ -75,10 +75,10 @@ class AddItineraryItem extends Component {
             <Flex>
               <Flex style={styles.container}>
                 <Headline>Add a plan to your itinerary</Headline>
-                <Text>EVENT</Text>
+                <Text>PLAN</Text>
                 <Input
                   ref={ref => (this._event = ref)}
-                  id="event"
+                  id="plan"
                   autoCapitalize="words"
                   autoCorrect={false}
                   autoFocus
@@ -87,7 +87,7 @@ class AddItineraryItem extends Component {
                   maxLength={25}
                   onChangeText={event => this.setState({ event })}
                   onSubmitEditing={() => this.setState({ displayTimePicker: true })}
-                  placeholder={"Enter event"}
+                  placeholder={"Enter plan"}
                   placeholderTextColor={Colors.lightGray}
                   required
                   returnKeyType="next"
