@@ -31,7 +31,7 @@ const UserList = ({ tripId, users }) => {
       setUserList(usersDetails)
     }
     getUsersDetails()
-  }, [])
+  }, [users])
 
   const renderItem = useCallback(({ item }) => {
     return (
@@ -46,17 +46,17 @@ const UserList = ({ tripId, users }) => {
           )
         }}
       >
-      <View style={styles.item}>
-        <Icon.Feather name="user" size={25} />
-        <View style={styles.itemText}>
-          <Text>
-            {item.firstName} {item.lastName}
-          </Text>
-          <Text color={Colors.darkGray} size="small">
-            {item.email}
-          </Text>
+        <View style={styles.item}>
+          <Icon.Feather name="user" size={25} />
+          <View style={styles.itemText}>
+            <Text>
+              {item.firstName} {item.lastName}
+            </Text>
+            <Text color={Colors.darkGray} size="small">
+              {item.email}
+            </Text>
+          </View>
         </View>
-      </View>
       </TouchableWithoutFeedback>
     )
   }, [])
