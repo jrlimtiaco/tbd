@@ -51,31 +51,37 @@ class Login extends Component {
       <Container>
         <View style={styles.container}>
           <Text color={Colors.darkGray} size="xxxxlarge" type={Fonts.CerealExtraBold}>
-            Signup
+            Sign Up
           </Text>
-          <Input
-            ref={ref => (this._firstName = ref)}
-            autoFocus
-            containerStyle={styles.input}
-            id="first name"
-            onChangeText={firstName => this.setState({ firstName })}
-            onSubmitEditing={() => this._lastName.focus()}
-            placeholder="First Name"
-            required
-            returnKeyType="next"
-            value={this.state.firstName}
-          />
-          <Input
-            ref={ref => (this._lastName = ref)}
-            containerStyle={styles.input}
-            id="last name"
-            onChangeText={lastName => this.setState({ lastName })}
-            onSubmitEditing={() => this._email.focus()}
-            placeholder="Last Name"
-            required
-            returnKeyType="next"
-            value={this.state.lastName}
-          />
+          <View style={styles.row}>
+            <View style={styles.firstName}>
+              <Input
+                ref={ref => (this._firstName = ref)}
+                autoFocus
+                containerStyle={styles.input}
+                id="first name"
+                onChangeText={firstName => this.setState({ firstName })}
+                onSubmitEditing={() => this._lastName.focus()}
+                placeholder="First Name"
+                required
+                returnKeyType="next"
+                value={this.state.firstName}
+              />
+            </View>
+            <View style={styles.lastName}>
+              <Input
+                ref={ref => (this._lastName = ref)}
+                containerStyle={styles.input}
+                id="last name"
+                onChangeText={lastName => this.setState({ lastName })}
+                onSubmitEditing={() => this._email.focus()}
+                placeholder="Last Name"
+                required
+                returnKeyType="next"
+                value={this.state.lastName}
+              />
+            </View>
+          </View>
           <Input
             ref={ref => (this._email = ref)}
             containerStyle={styles.input}
@@ -115,8 +121,10 @@ class Login extends Component {
             disabled={this.state.pending}
             onPress={this._signup}
             pending={this.state.pending}
+            style={styles.signUp}
+            transparent
           >
-            <Text type={Fonts.CerealBold}>Signup</Text>
+            <Text type={Fonts.CerealBold}>Sign up</Text>
           </Button>
           <TouchableOpacity
             onPress={() => this.props.navigation.goBack()}
@@ -143,5 +151,22 @@ const styles = StyleSheet.create({
   },
   input: {
     marginVertical: 10,
+  },
+  firstName: {
+    flex: 1,
+    marginRight: 2,
+  },
+  lastName: {
+    flex: 1,
+    marginLeft: 2,
+  },
+  row: {
+    flexDirection: "row",
+  },
+  signUp: {
+    alignSelf: "center",
+    borderWidth: 2,
+    marginVertical: 20,
+    width: "50%",
   },
 })
