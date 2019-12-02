@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native"
 import { Subscribe } from "unstated"
+import { useActionSheet } from '@expo/react-native-action-sheet'
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 import moment from "moment"
@@ -20,11 +21,13 @@ import UsersContainer from "../containers/UsersContainer"
 import UsersTripsContainer from "../containers/UsersTripsContainer"
 
 import { displayDates } from "../utils/dates"
+import { removeUser } from "../utils/removeUser"
 import { Colors, DEFAULT_PADDING } from "../constants/style"
 
 const Trips = ({ currentTrip, refresh, trips }) => {
   const [loading, setLoading] = useState(true)
   const [tripList, setTripList] = useState([])
+  const { showActionSheetWithOptions } = useActionSheet()
 
   useEffect(() => {
     if (trips.length) {
@@ -57,7 +60,19 @@ const Trips = ({ currentTrip, refresh, trips }) => {
   const renderItem = useCallback(({ item }) => {
     return (
       <View style={styles.listItem}>
-        <TouchableOpacity onPress={() => onPress(item.id)} style={styles.row}>
+        <TouchableOpacity
+          style={styles.row}
+          onPress={() => onPress(item.id)}
+          onLongPress={() => {
+            showActionSheetWithOptions({
+              options: ['Leave', 'Cancel'],
+              cancelButtonIndex: 1,
+              destructiveButtonIndex: 0,
+            },
+              buttonIndex => buttonIndex === 0 && removeUser(firebase.auth().currentUser.uid, item.id)
+            )
+          }}
+        >
           <View>
             <Text size="large">{item.location}</Text>
             <Text size="small">

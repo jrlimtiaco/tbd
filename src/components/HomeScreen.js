@@ -10,6 +10,7 @@ import Polls from "./Polls"
 import Text from "./common/Text"
 import UnreadCount, { MESSAGE, POLL_SUGGESTION } from "./UnreadCount"
 
+import ProfileContainer from "../containers/ProfileContainer"
 import TripContainer from "../containers/TripContainer"
 import UsersTripsContainer from "../containers/UsersTripsContainer"
 import { Subscribe } from "unstated"
@@ -27,12 +28,13 @@ export default class HomeScreen extends Component {
 
   render() {
     return (
-      <Subscribe to={[TripContainer, UsersTripsContainer]}>
-        {(tripContainer, usersTripsContainer) => {
+      <Subscribe to={[ProfileContainer, TripContainer, UsersTripsContainer]}>
+        {(profileContainer, tripContainer, usersTripsContainer) => {
           const { navigation: { navigate } } = this.props
+          const { currentTrip } = profileContainer.state.profile
           const { usersTrips } = usersTripsContainer.state
           const { image, trip: { endDate, location, startDate, tripName, users } } = tripContainer.state
-          if (!usersTrips.length) {
+          if (!usersTrips.length || !currentTrip) {
             return <CreateFirstTrip />
           } else {
             return (
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   location: {
-    paddingBottom: 10,
+    paddingBottom: 7,
     paddingRight: 5,
   },
   name: {

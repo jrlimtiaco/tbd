@@ -67,7 +67,9 @@ class Chat extends Component {
               this._setLastReadMessage(lastMessageInChat.id, profile.currentTrip)
             }
           }
-          const formattedChat = chat.map(m => ({ ...m, createdBy: users[m.createdBy] }))
+          const formattedChat = chat
+            .filter(m => users[m.createdBy])
+            .map(m => ({ ...m, createdBy: users[m.createdBy] }))
           this._chatMessages = formattedChat
           return (
             <Flex>

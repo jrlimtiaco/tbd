@@ -35,6 +35,15 @@ export default class TripContainer extends Container {
           .doc(currentTrip)
           .onSnapshot(async snapshot => {
             const trip = snapshot.data()
+            if (!trip.users.includes(firebase.auth().currentUser.uid)) {
+              await db
+                .collection("Users")
+                .doc(firebase.auth().currentUser.uid)
+                .update({
+                  currentTrip: null
+                })
+              firebase.auth().signOut()
+            }
             if (trip.location !== this.state.trip.location) {
               const res = await fetch(
                 `https://api.pexels.com/v1/search?query=${trip.location}&per_page=15&page=1`,

@@ -1,18 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native"
+import { FlatList, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { Subscribe } from "unstated"
+import { useActionSheet } from '@expo/react-native-action-sheet'
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 
 import Flex from "./common/Flex"
 import Text from "./common/Text"
 
+import ProfileContainer from "../containers/ProfileContainer"
 import TripContainer from "../containers/TripContainer"
 
 import { Colors, DEFAULT_PADDING } from "../constants/style"
+import { removeUser } from "../utils/removeUser"
 
-const UserList = ({ users }) => {
+const UserList = ({ tripId, users }) => {
   const [userList, setUserList] = useState([])
+  const { showActionSheetWithOptions } = useActionSheet()
 
   useEffect(() => {
     const getUsersDetails = async () => {
@@ -27,21 +31,33 @@ const UserList = ({ users }) => {
       setUserList(usersDetails)
     }
     getUsersDetails()
-  }, [])
+  }, [users])
 
   const renderItem = useCallback(({ item }) => {
     return (
-      <View style={styles.item}>
-        <Icon.Feather name="user" size={25} />
-        <View style={styles.itemText}>
-          <Text>
-            {item.firstName} {item.lastName}
-          </Text>
-          <Text color={Colors.darkGray} size="small">
-            {item.email}
-          </Text>
+      <TouchableWithoutFeedback
+        onLongPress={() => {
+          showActionSheetWithOptions({
+            options: ['Remove', 'Cancel'],
+            cancelButtonIndex: 1,
+            destructiveButtonIndex: 0,
+          },
+            buttonIndex => buttonIndex === 0 && removeUser(item.id, tripId)
+          )
+        }}
+      >
+        <View style={styles.item}>
+          <Icon.Feather name="user" size={25} />
+          <View style={styles.itemText}>
+            <Text>
+              {item.firstName} {item.lastName}
+            </Text>
+            <Text color={Colors.darkGray} size="small">
+              {item.email}
+            </Text>
+          </View>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }, [])
 
@@ -60,8 +76,13 @@ const UserList = ({ users }) => {
 
 const UserListContainer = () => {
   return (
-    <Subscribe to={[TripContainer]}>
-      {tripContainer => <UserList users={tripContainer.state.trip.users} />}
+    <Subscribe to={[ProfileContainer, TripContainer]}>
+      {(profileContainer, tripContainer) => (
+        <UserList
+          tripId={profileContainer.state.profile.currentTrip}
+          users={tripContainer.state.trip.users}
+        />
+      )}
     </Subscribe>
   )
 }

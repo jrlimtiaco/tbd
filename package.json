@@ -13,7 +13,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/react-native-action-sheet": "^2.0.1",
+    "@expo/react-native-action-sheet": "^3.4.0",
     "@expo/samples": "2.1.1",
     "expo": "^33.0.0",
     "firebase": "^5.7.2",
