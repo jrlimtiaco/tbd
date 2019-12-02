@@ -105,7 +105,7 @@ class AddPoll extends Component {
                   keyboardShouldPersistTaps="always"
                   showsVerticalScrollIndicator={false}
                 >
-                  <Headline>Make a poll for your trip</Headline>
+                  <Headline>Make a poll for the trip</Headline>
                   <Text>QUESTION</Text>
                   <Input
                     ref={ref => (this._question = ref)}

@@ -60,7 +60,7 @@ class AddSuggestion extends Component {
             this._tripItems = tripContainer.state.trip.tripItems
             return (
               <Flex style={styles.container}>
-                <Headline>Make a suggestion for your trip</Headline>
+                <Headline>Make a suggestion for the trip</Headline>
                 <TextInput
                   autoCapitalize="words"
                   autoCorrect={false}

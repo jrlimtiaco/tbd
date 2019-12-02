@@ -46,7 +46,7 @@ class Login extends Component {
       <Container>
         <View style={styles.container}>
           <Text color={Colors.darkGray} size="xxxxlarge" type={Fonts.CerealExtraBold}>
-            Login
+            Log In
           </Text>
           <Input
             ref={ref => (this._email = ref)}
@@ -75,9 +75,11 @@ class Login extends Component {
             disabled={this.state.pending}
             onPress={this._login}
             pending={this.state.pending}
+            style={styles.login}
+            transparent
           >
             <Text type={Fonts.CerealBold}>
-              Login
+              Log in
             </Text>
           </Button>
           <TouchableOpacity
@@ -105,5 +107,11 @@ const styles = StyleSheet.create({
   },
   input: {
     marginVertical: 10,
+  },
+  login: {
+    alignSelf: "center",
+    borderWidth: 2,
+    marginVertical: 20,
+    width: "50%",
   },
 })

@@ -74,7 +74,7 @@ class AddItineraryItem extends Component {
           return (
             <Flex>
               <Flex style={styles.container}>
-                <Headline>Add a plan to your itinerary</Headline>
+                <Headline>Add a plan to the itinerary</Headline>
                 <Text>PLAN</Text>
                 <Input
                   ref={ref => (this._event = ref)}
