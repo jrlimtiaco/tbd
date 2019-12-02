@@ -14,6 +14,7 @@ import PollsContainer from "../containers/PollsContainer"
 import ProfileContainer from "../containers/ProfileContainer"
 import SuggestionsContainer from "../containers/SuggestionsContainer"
 import TripContainer from "../containers/TripContainer"
+import UsersContainer from "../containers/UsersContainer"
 
 import { displayDates, getTripDates } from "../utils/dates"
 import { CALENDAR, LOCATION, SEARCH, TRIP } from "../constants/routes"
@@ -68,7 +69,7 @@ class CreateTrip extends Component {
           .collection("usersTrips")
           .doc(newTripRef.id)
           .set({})
-        await Promise.all(users.map(async user => 
+        await Promise.all(users.map(async user =>
           await db
             .collection("Invites")
             .doc(user)
@@ -185,7 +186,8 @@ class CreateTrip extends Component {
           PollsContainer,
           ProfileContainer,
           SuggestionsContainer,
-          TripContainer
+          TripContainer,
+          UsersContainer
         ]}
       >
         {(
@@ -194,7 +196,8 @@ class CreateTrip extends Component {
           pollsContainer,
           profileContainer,
           suggestionsContainer,
-          tripContainer
+          tripContainer,
+          usersContainer
         ) => {
           return (
             <Flex>
@@ -215,6 +218,7 @@ class CreateTrip extends Component {
                         profileContainer._refreshProfile()
                         suggestionsContainer._refreshSuggestions()
                         tripContainer._refreshTrips()
+                        usersContainer._refreshUsers()
                       },
                     })
                   }}
