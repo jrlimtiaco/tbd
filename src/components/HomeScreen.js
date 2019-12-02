@@ -21,6 +21,12 @@ import { DEVICE_HEIGHT, DEVICE_WIDTH } from "../constants/dimensions"
 import { CHAT, CHECKLIST, DETAILS, EDIT_TRIP, ITINERARY, NAME_TRIP, POLLS, USER_LIST } from "../constants/routes"
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
+const ICON_SIZE = DEVICE_WIDTH < 370
+  ? 40
+  : DEVICE_WIDTH > 400
+  ? 60
+  : 50
+
 export default class HomeScreen extends Component {
   static navigationOptions = {
     header: null,
@@ -88,23 +94,23 @@ export default class HomeScreen extends Component {
                 <Flex style={styles.tripItemContainer}>
                   <View style={styles.tripItemRow}>
                     <TouchableOpacity onPress={() => navigate(ITINERARY)} style={styles.tripItem}>
-                      <Icon.Feather name="map" size={50} style={styles.icon} />
+                      <Icon.Feather name="map" size={ICON_SIZE} style={styles.icon} />
                       <Text>Itinerary</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigate(CHAT)} style={styles.tripItem}>
-                      <Icon.Feather name="message-square" size={50} style={styles.icon} />
+                      <Icon.Feather name="message-square" size={ICON_SIZE} style={styles.icon} />
                       <Text>Chat</Text>
                       <UnreadCount type={MESSAGE} />
                     </TouchableOpacity>
                   </View>
                   <View style={styles.tripItemRow}>
                     <TouchableOpacity onPress={() => navigate(DETAILS)} style={styles.tripItem}>
-                      <Icon.Feather name="edit" size={50} style={styles.icon} />
+                      <Icon.Feather name="edit" size={ICON_SIZE} style={styles.icon} />
                       <Text>Polls & Suggestions</Text>
                       <UnreadCount type={POLL_SUGGESTION} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigate(CHECKLIST)} style={styles.tripItem}>
-                      <Icon.Feather name="clipboard" size={50} style={styles.icon} />
+                      <Icon.Feather name="clipboard" size={ICON_SIZE} style={styles.icon} />
                       <Text>Checklist</Text>
                     </TouchableOpacity>
                   </View>

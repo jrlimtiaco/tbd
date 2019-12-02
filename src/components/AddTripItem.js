@@ -64,7 +64,7 @@ class AddTripItem extends Component {
             this._tripItems = tripContainer.state.trip.tripItems
             return (
               <Flex style={styles.container}>
-                <Headline>Add an item to your checklist</Headline>
+                <Headline>Add an item to the checklist</Headline>
                 <TextInput
                   autoCapitalize="words"
                   autoCorrect={false}
