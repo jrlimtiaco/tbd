@@ -1,6 +1,7 @@
 import React, { Component } from "react"
-import { Alert, FlatList, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Alert, FlatList, ScrollView, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { Subscribe } from "unstated"
+import { connectActionSheet } from '@expo/react-native-action-sheet'
 import firebase from "firebase"
 
 import * as Icon from "@expo/vector-icons"
@@ -16,6 +17,7 @@ import { DEVICE_HEIGHT } from "../constants/dimensions"
 import { ADD_CHECKLIST_ITEM } from "../constants/routes"
 import { Colors, Fonts, DEFAULT_PADDING } from "../constants/style"
 
+@connectActionSheet
 class Checklist extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -52,17 +54,26 @@ class Checklist extends Component {
 
   _renderItem = ({ item }) => {
     return (
-      <View style={styles.tripItem}>
-        <View style={styles.tripItemTextContainer}>
-          <Icon.Feather color={Colors.darkGray} name="check" size={25} />
-          <Text style={styles.tripItemText}>
-            {item}
-          </Text>
+      <TouchableWithoutFeedback
+        onLongPress={() => {
+          this.props.showActionSheetWithOptions({
+            options: ['Delete', 'Cancel'],
+            cancelButtonIndex: 1,
+            destructiveButtonIndex: 0,
+          },
+            buttonIndex => buttonIndex === 0 && this._deleteItem(item)
+          )
+        }}
+      >
+        <View style={styles.tripItem}>
+          <View style={styles.tripItemTextContainer}>
+            <Icon.Feather color={Colors.darkGray} name="check" size={25} />
+            <Text style={styles.tripItemText}>
+              {item}
+            </Text>
+          </View>
         </View>
-        <TouchableOpacity onPress={() => this._deleteItem(item)}>
-          <Icon.MaterialCommunityIcons name="delete-outline" size={25} />
-        </TouchableOpacity>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
 
@@ -115,13 +126,15 @@ const styles = StyleSheet.create({
     borderColor: Colors.lightGray,
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: DEFAULT_PADDING,
+    paddingVertical: DEFAULT_PADDING * 1.25,
   },
   tripItemText: {
+    flex: 1,
     paddingLeft: 10,
   },
   tripItemTextContainer: {
     alignItems: "center",
+    flex: 1,
     flexDirection: "row",
   },
 })

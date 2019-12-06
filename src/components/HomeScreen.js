@@ -69,9 +69,9 @@ export default class HomeScreen extends Component {
                           {tripName || `Try "Trip to ${location}"`}
                         </Text>
                       </TouchableOpacity>
-                      <Text style={styles.location}>
+                      <Text ellipsizeMode="tail" numberOfLines={1} style={styles.location}>
                         {location}{"  "}
-                        <Text color={Colors.gray} size="small">
+                        <Text color={Colors.gray} ellipsizeMode="tail" numberOfLines={1} size="small">
                           {displayDates({ startDate, endDate })}
                         </Text>
                       </Text>

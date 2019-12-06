@@ -7,6 +7,7 @@ import firebase from "firebase"
 import Input from "../common/Input"
 import Text from "../common/Text"
 
+import { DEVICE_HEIGHT } from "../../constants/dimensions"
 import { SIGNUP } from "../../constants/routes"
 import { Colors, Fonts } from "../../constants/style"
 
@@ -45,8 +46,11 @@ class Login extends Component {
     return (
       <Container>
         <View style={styles.container}>
-          <Text color={Colors.darkGray} size="xxxxlarge" type={Fonts.CerealExtraBold}>
-            Log In
+          <Text align="center" size="xxlarge">
+            Plan your trip with{" "}
+            <Text align="center" color={Colors.darkGray} size="xxxxlarge" type={Fonts.CerealExtraBold}>
+              Flock
+            </Text>
           </Text>
           <Input
             ref={ref => (this._email = ref)}
@@ -82,12 +86,15 @@ class Login extends Component {
               Log in
             </Text>
           </Button>
+          <Text align="center" color={Colors.darkGray} size="small">
+            Don't have an account yet?
+          </Text>
           <TouchableOpacity
             onPress={this._navigateToSignUp}
             style={styles.createAccount}
           >
-            <Text size="xsmall" type={Fonts.CerealBold}>
-              Create account
+            <Text type={Fonts.CerealBold}>
+              Sign up
             </Text>
           </TouchableOpacity>
         </View>
@@ -101,6 +108,7 @@ export default Login
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 15,
+    marginTop: DEVICE_HEIGHT * 0.05,
   },
   createAccount: {
     alignSelf: "center",

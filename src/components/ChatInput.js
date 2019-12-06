@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Image, Keyboard, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
+import { Image, Keyboard, SafeAreaView, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 import uuidV4 from "uuid/v4"
@@ -96,6 +96,7 @@ class ChatInput extends Component {
     const disabled = !image && !text
     return (
       <View style={[styles.container, isIOS && { marginBottom: keyboardHeight }]}>
+      <SafeAreaView>
         {image && (
           <View style={styles.imageContainer}>
             <TouchableOpacity onPress={this._removeImage} style={styles.removeImage}>
@@ -136,6 +137,7 @@ class ChatInput extends Component {
             </Text>
           </TouchableOpacity>
         </View>
+      </SafeAreaView>
       </View>
     )
   }
