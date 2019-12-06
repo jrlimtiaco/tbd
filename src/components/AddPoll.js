@@ -62,7 +62,7 @@ class AddPoll extends Component {
       try {
         this.setState({ pending: true })
         const db = firebase.firestore()
-        const profile = await db.collection("Users").doc(`${firebase.auth().currentUser.uid}`).get()
+        const profile = await db.collection("Users").doc(firebase.auth().currentUser.uid).get()
         const { currentTrip } = profile.data()
         await db
           .collection("Polls")
@@ -115,7 +115,7 @@ class AddPoll extends Component {
                     autoFocus
                     clearButtonMode="while-editing"
                     containerStyle={styles.textInputContainer}
-                    maxLength={30}
+                    maxLength={100}
                     onChangeText={question => this.setState({ question })}
                     onSubmitEditing={() => this._1 && this._1.focus()}
                     placeholder={"Enter a question"}
@@ -139,7 +139,7 @@ class AddPoll extends Component {
                           autoCorrect={false}
                           clearButtonMode="while-editing"
                           containerStyle={styles.textInputContainer}
-                          maxLength={30}
+                          maxLength={32}
                           onChangeText={text => this.setState({ [optionNumber]: text })}
                           placeholder={"Enter an option"}
                           placeholderTextColor={Colors.lightGray}

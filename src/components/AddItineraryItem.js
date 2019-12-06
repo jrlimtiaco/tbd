@@ -84,7 +84,7 @@ class AddItineraryItem extends Component {
                   autoFocus
                   clearButtonMode="while-editing"
                   containerStyle={styles.textInputContainer}
-                  maxLength={25}
+                  maxLength={100}
                   onChangeText={event => this.setState({ event })}
                   onSubmitEditing={() => this.setState({ displayTimePicker: true })}
                   placeholder={"Enter plan"}

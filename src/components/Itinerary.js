@@ -1,6 +1,7 @@
 import React, { Component } from "react"
-import { Alert, FlatList, LayoutAnimation, StyleSheet, TouchableOpacity, View } from "react-native"
+import { Alert, FlatList, LayoutAnimation, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { Subscribe } from "unstated"
+import { connectActionSheet } from '@expo/react-native-action-sheet'
 import { groupBy } from "lodash"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
@@ -21,6 +22,7 @@ import { displayDates, getTripDates } from "../utils/dates"
 
 const ITEM_SIZE = 80
 
+@connectActionSheet
 class Itinerary extends Component {
   static navigationOptions = ({ navigation }) => {
     const addEvent = navigation.getParam("addEvent")
@@ -71,20 +73,29 @@ class Itinerary extends Component {
 
   _renderEvent = ({ item, index }) => {
     return (
-      <View key={index} style={styles.eventItemContainer}>
-        <Text color={Colors.gray} style={styles.eventTime} type={Fonts.CerealExtraBold}>
-          {item.startTime}
-        </Text>
-        <View style={styles.eventItem}>
-          <View style={styles.dot} />
-          <View style={styles.eventItemTextContainer}>
-            <Text>{item.event}</Text>
+      <TouchableWithoutFeedback
+        onLongPress={() => {
+          this.props.showActionSheetWithOptions({
+            options: ['Delete', 'Cancel'],
+            cancelButtonIndex: 1,
+            destructiveButtonIndex: 0,
+          },
+            buttonIndex => buttonIndex === 0 && this._deleteEvent(item.id)
+          )
+        }}
+      >
+        <View style={styles.eventItemContainer}>
+          <Text color={Colors.gray} style={styles.eventTime} type={Fonts.CerealExtraBold}>
+            {item.startTime}
+          </Text>
+          <View style={styles.eventItem}>
+            <View style={styles.dot} />
+            <View style={styles.eventItemTextContainer}>
+              <Text>{item.event}</Text>
+            </View>
           </View>
-          <TouchableOpacity onPress={() => this._deleteEvent(item.id)}>
-            <Icon.MaterialCommunityIcons name="delete-outline" size={25} />
-          </TouchableOpacity>
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
 

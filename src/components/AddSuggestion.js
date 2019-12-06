@@ -66,7 +66,7 @@ class AddSuggestion extends Component {
                   autoCorrect={false}
                   autoFocus
                   clearButtonMode="while-editing"
-                  maxLength={25}
+                  maxLength={100}
                   onChangeText={suggestion => this.setState({ suggestion })}
                   onSubmitEditing={this._onSubmitEditing}
                   placeholder={`Try "Drinks at night"`}

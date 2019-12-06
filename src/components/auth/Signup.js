@@ -7,6 +7,7 @@ import firebase from "firebase"
 import Input from "../common/Input"
 import Text from "../common/Text"
 
+import { DEVICE_HEIGHT } from "../../constants/dimensions"
 import { Colors, Fonts } from "../../constants/style"
 
 class Login extends Component {
@@ -51,7 +52,7 @@ class Login extends Component {
       <Container>
         <View style={styles.container}>
           <Text color={Colors.darkGray} size="xxxxlarge" type={Fonts.CerealExtraBold}>
-            Sign Up
+            Sign up
           </Text>
           <View style={styles.row}>
             <View style={styles.firstName}>
@@ -130,7 +131,7 @@ class Login extends Component {
             onPress={() => this.props.navigation.goBack()}
             style={styles.cancel}
           >
-            <Text color={Colors.red} size="xsmall" type={Fonts.CerealBold}>
+            <Text color={Colors.red} type={Fonts.CerealBold}>
               Cancel
             </Text>
           </TouchableOpacity>
@@ -145,6 +146,7 @@ export default Login
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 15,
+    marginTop: DEVICE_HEIGHT * 0.05,
   },
   cancel: {
     alignSelf: "center",

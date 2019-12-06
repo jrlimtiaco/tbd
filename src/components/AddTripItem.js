@@ -70,7 +70,7 @@ class AddTripItem extends Component {
                   autoCorrect={false}
                   autoFocus
                   clearButtonMode="while-editing"
-                  maxLength={25}
+                  maxLength={100}
                   onChangeText={tripItem => this.setState({ tripItem })}
                   onSubmitEditing={this._onSubmitEditing}
                   placeholder={`Try "Passport"`}
