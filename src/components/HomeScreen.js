@@ -95,23 +95,23 @@ export default class HomeScreen extends Component {
                   <View style={styles.tripItemRow}>
                     <TouchableOpacity onPress={() => navigate(ITINERARY)} style={styles.tripItem}>
                       <Icon.Feather name="map" size={ICON_SIZE} style={styles.icon} />
-                      <Text>Itinerary</Text>
+                      <Text type={Fonts.CerealBook}>Itinerary</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigate(CHAT)} style={styles.tripItem}>
                       <Icon.Feather name="message-square" size={ICON_SIZE} style={styles.icon} />
-                      <Text>Chat</Text>
+                      <Text type={Fonts.CerealBook}>Chat</Text>
                       <UnreadCount type={MESSAGE} />
                     </TouchableOpacity>
                   </View>
                   <View style={styles.tripItemRow}>
                     <TouchableOpacity onPress={() => navigate(DETAILS)} style={styles.tripItem}>
                       <Icon.Feather name="edit" size={ICON_SIZE} style={styles.icon} />
-                      <Text>Polls & Suggestions</Text>
+                      <Text type={Fonts.CerealBook}>Polls & Suggestions</Text>
                       <UnreadCount type={POLL_SUGGESTION} />
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigate(CHECKLIST)} style={styles.tripItem}>
                       <Icon.Feather name="clipboard" size={ICON_SIZE} style={styles.icon} />
-                      <Text>Checklist</Text>
+                      <Text type={Fonts.CerealBook}>Checklist</Text>
                     </TouchableOpacity>
                   </View>
                 </Flex>
@@ -169,13 +169,13 @@ const styles = StyleSheet.create({
   tripItem: {
     alignItems: "center",
     backgroundColor: Colors.lightWhiteGray,
-    borderRadius: 3,
+    borderRadius: 15,
     flex: 1,
     justifyContent: "center",
-    margin: DEFAULT_PADDING * 0.25,
+    margin: DEFAULT_PADDING * 0.35,
   },
   tripItemContainer: {
-    margin: DEFAULT_PADDING * 0.25,
+    margin: DEFAULT_PADDING * 0.35,
   },
   tripItemRow: {
     flex: 1,
