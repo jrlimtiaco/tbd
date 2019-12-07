@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
+import config from "../config"
 
 import * as Icon from "@expo/vector-icons"
 import Flex from "./common/Flex"
@@ -8,7 +9,6 @@ import Text from "./common/Text"
 
 import { Colors, DEFAULT_PADDING, Fonts } from "../constants/style"
 
-const API_KEY = "AIzaSyBTO4ymkNSBsV7kWtKCdZNPdwPgslpLAYI"
 const COUNTRY_FORMAT = "country:us"
 
 class LocationPicker extends Component {
@@ -35,7 +35,7 @@ class LocationPicker extends Component {
     }
     try {
       const result = await fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${API_KEY}&input=${input}&components=${COUNTRY_FORMAT}`
+        `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${config.googleApiKey}&input=${input}&components=${COUNTRY_FORMAT}`
       )
       const data = await result.json()
       this.setState({ data: data.predictions })

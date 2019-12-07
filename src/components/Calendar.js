@@ -80,6 +80,7 @@ class CalendarScreen extends Component {
             markedDates={markedDates}
             markingType="period"
             onDayPress={this._onDayPress}
+            theme={{ arrowColor: Colors.darkGray }}
           />
           <Button
             onPress={this._onPress}
