@@ -46,7 +46,10 @@ class LocationPicker extends Component {
 
   _filterRowData = rowData => {
     const data = rowData.description.split(",")
-    return { title: data[0] }
+    return {
+      title: data[0],
+      subTitle: data.slice(1, 3).join(',').trim(),
+    }
   }
 
   _renderItem = ({ item }) => {
@@ -64,9 +67,14 @@ class LocationPicker extends Component {
         }}
       >
         <Icon.Feather name="map-pin" size={30} />
-        <Text size="large" style={styles.rowDataText}>
-          {filterRowData.title}
-        </Text>
+        <View style={styles.rowDataText}>
+          <Text size="large">
+            {filterRowData.title}
+          </Text>
+          <Text color={Colors.darkGray}>
+            {filterRowData.subTitle}
+          </Text>
+        </View>
       </TouchableOpacity>
     )
   }
