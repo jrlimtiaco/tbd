@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 import { Subscribe } from "unstated"
+import { debounce, uniqBy } from "lodash"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 
@@ -18,19 +19,40 @@ const Search = ({ navigation, users }) => {
   const [results, setResults] = useState([])
   const [search, setSearch] = useState("")
 
+  const searchForUsers = useCallback((search, type) => {
+    return firebase
+      .firestore()
+      .collection("Users")
+      .orderBy(type)
+      .startAt(search)
+      .endAt(`${search}\uf8ff`)
+      .get()
+      .then(snapshot => formatCollection(snapshot))
+      .catch(err => console.log("## searchUsers:", err))
+  }, [])
+
   useEffect(() => {
     navigation.setParams({ selectedUsers })
-    const searchUsers = () => {
-      firebase
-        .firestore()
-        .collection("Users")
-        .get()
-        .then(querySnapshot => {
-          setResults(formatCollection(querySnapshot))
-        })
-    }
-    searchUsers()
   }, [])
+
+  useEffect(() => {
+    if (search) {
+      const getSearch = debounce(async () => {
+        const [firstNameResults, lastNameResults, emailResults] = [
+          await searchForUsers(search, "firstName"),
+          await searchForUsers(search, "lastName"),
+          await searchForUsers(search, "email")
+        ]
+        setResults(
+          uniqBy(
+            [...firstNameResults, ...lastNameResults, ...emailResults],
+            result => result.id
+          )
+        )
+      }, 500)
+      getSearch()
+    }
+  }, [search, searchForUsers])
 
   const onPress = useCallback((userId) => {
     const updatedUsers = selectedUsers.includes(userId)
