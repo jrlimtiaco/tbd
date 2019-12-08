@@ -52,28 +52,24 @@ class LocationPicker extends Component {
     }
   }
 
-  _renderItem = ({ item }) => {
-    const filterRowData = this._filterRowData(item)
+  _renderItem = ({ item, index }) => {
+    const { subTitle, title } = this._filterRowData(item)
     return (
       <TouchableOpacity
-        key={filterRowData.title}
+        key={index}
         style={styles.itemContainerStyle}
         onPress={() => {
           const selectLocation = this.props.navigation.getParam("selectLocation")
           if (selectLocation) {
-            selectLocation(filterRowData)
+            selectLocation(title)
           }
           this.props.navigation.goBack()
         }}
       >
         <Icon.Feather name="map-pin" size={30} />
         <View style={styles.rowDataText}>
-          <Text size="large">
-            {filterRowData.title}
-          </Text>
-          <Text color={Colors.darkGray}>
-            {filterRowData.subTitle}
-          </Text>
+          <Text size="large">{title}</Text>
+          <Text color={Colors.darkGray}>{subTitle}</Text>
         </View>
       </TouchableOpacity>
     )
