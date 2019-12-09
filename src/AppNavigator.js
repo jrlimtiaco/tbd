@@ -25,6 +25,7 @@ import Login from "./components/auth/Login"
 import Polls from "./components/Polls"
 import Search from "./components/Search"
 import Signup from "./components/auth/Signup"
+import Slideshow from "./components/Slideshow"
 import Suggestions from "./components/Suggestions"
 import Trips from "./components/Trips"
 import UserList from "./components/UserList"
@@ -57,6 +58,7 @@ import {
   POLLS,
   SEARCH,
   SIGNUP,
+  SLIDESHOW,
   SUGGESTIONS,
   TRIP,
   TRIPS,
@@ -209,4 +211,5 @@ export default createSwitchNavigator({
   [AUTH_HANDLER]: AuthHandler,
   [APP]: App,
   [AUTH]: AuthStack,
+  [SLIDESHOW]: Slideshow,
 })

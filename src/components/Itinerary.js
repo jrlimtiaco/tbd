@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   line: {
     backgroundColor: Colors.gray,
     bottom: 0,
-    left: 95,
+    left: 94.5,
     position: "absolute",
     top: 0,
     width: 1,
