@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import { Subscribe } from "unstated"
+import { startCase } from "lodash"
 import { useActionSheet } from '@expo/react-native-action-sheet'
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
@@ -50,10 +51,10 @@ const UserList = ({ tripId, users }) => {
           <Icon.Feather name="user" size={25} />
           <View style={styles.itemText}>
             <Text>
-              {item.firstName} {item.lastName}
+              {startCase(item.firstName)} {startCase(item.lastName)}
             </Text>
             <Text color={Colors.darkGray} size="small">
-              {item.email}
+              {item.email.toLowerCase()}
             </Text>
           </View>
         </View>

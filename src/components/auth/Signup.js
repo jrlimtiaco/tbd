@@ -34,12 +34,12 @@ class Login extends Component {
       await firebase.auth().createUserWithEmailAndPassword(email, password)
       await firebase.firestore()
         .collection("Users")
-        .doc(`${firebase.auth().currentUser.uid}`)
+        .doc(firebase.auth().currentUser.uid)
         .set({
           currentTrip: null,
-          email,
-          firstName,
-          lastName,
+          email: email.toLowerCase(),
+          firstName: firstName.toLowerCase(),
+          lastName: lastName.toLowerCase(),
         })
     } catch (err) {
       Alert.alert("Error", err.message)

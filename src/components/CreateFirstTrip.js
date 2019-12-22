@@ -18,7 +18,7 @@ class CreateFirstTrip extends Component {
           Where to?
         </Text>
         <Text size="medium" style={styles.createText}>
-          Start planning your first adventure
+          Start planning your adventure
         </Text>
         <Button
           onPress={() => navigation.navigate(CREATE_TRIP)}

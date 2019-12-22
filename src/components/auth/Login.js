@@ -49,7 +49,7 @@ class Login extends Component {
           <Text align="center" size="xxlarge">
             Plan your trip with{" "}
             <Text align="center" color={Colors.darkGray} size="xxxxlarge" type={Fonts.CerealExtraBold}>
-              Flock
+              Fløck
             </Text>
           </Text>
           <Input
