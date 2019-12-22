@@ -1,5 +1,6 @@
 import React, { useMemo } from "react"
 import { StyleSheet, View } from "react-native"
+import { startCase } from "lodash"
 import moment from "moment"
 
 import FlexImage from "./common/FlexImage"
@@ -15,7 +16,7 @@ const ChatMessage = ({ chatMessage, isFirstMessage }) => {
     return (
       <View style={styles.avatar}>
         <Text size="small">
-          {`${createdBy.firstName.substring(0, 1)}${createdBy.lastName.substring(0, 1)}`}
+          {`${createdBy.firstName.substring(0, 1).toUpperCase()}${createdBy.lastName.substring(0, 1).toUpperCase()}`}
         </Text>
       </View>
     )
@@ -25,7 +26,7 @@ const ChatMessage = ({ chatMessage, isFirstMessage }) => {
     return (
       <View style={styles.row}>
         <Text style={styles.name}>
-          {createdBy.firstName}
+          {startCase(createdBy.firstName)}
         </Text>
         <Text color={Colors.gray} size="xsmall">
           {moment(createdAt).format("h:mm a")}

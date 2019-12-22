@@ -15,12 +15,12 @@ const slides = [
   {
     icon: "map",
     text: "Itinerary & Checklist",
-    subText: "Easily collaborate on a itinerary and checklist",
+    subText: "Easily collaborate on a trip itinerary and checklist",
   },
   {
     icon: "edit",
     text: "Polls & Suggestions",
-    subText: "Enhance your trip with polls and suggestions",
+    subText: "Make the most of your trip with polls and suggestions",
   },
   {
     icon: "message-square",

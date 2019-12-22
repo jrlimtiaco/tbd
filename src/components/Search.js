@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, StyleSheet, TextInput, TouchableOpacity, View } from "react-native"
 import { Subscribe } from "unstated"
-import { debounce, uniqBy } from "lodash"
+import { debounce, startCase, uniqBy } from "lodash"
 import * as Icon from "@expo/vector-icons"
 import firebase from "firebase"
 
@@ -24,8 +24,8 @@ const Search = ({ navigation, users }) => {
       .firestore()
       .collection("Users")
       .orderBy(type)
-      .startAt(search)
-      .endAt(`${search}\uf8ff`)
+      .startAt(search.toLowerCase())
+      .endAt(`${search.toLowerCase()}\uf8ff`)
       .get()
       .then(snapshot => formatCollection(snapshot))
       .catch(err => console.log("## searchUsers:", err))
@@ -71,10 +71,10 @@ const Search = ({ navigation, users }) => {
             <Icon.Feather name="user" size={25} />
             <View style={styles.itemText}>
               <Text>
-                {item.firstName} {item.lastName}
+                {startCase(item.firstName)} {startCase(item.lastName)}
               </Text>
               <Text color={Colors.darkGray} size="small">
-                {item.email}
+                {item.email.toLowerCase()}
               </Text>
             </View>
           </View>
